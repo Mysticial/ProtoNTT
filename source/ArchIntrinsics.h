@@ -6,8 +6,8 @@
  * 
  *      This file contains all the bignum primitives.
  * 
- *  These are all extremely performance-critical and their implementations tend
- *  to be compiler-specific.
+ *  Most of these are extremely performance-critical and their implementations
+ *  tend to be compiler-specific.
  */
 
 #pragma once

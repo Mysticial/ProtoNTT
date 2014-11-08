@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\PrimeSets">
+      <UniqueIdentifier>{f4765def-4d0a-489e-8fb1-a833a8fea795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ArchIntrinsics.h">
@@ -21,25 +24,36 @@
     <ClInclude Include="..\source\ModularIntrinsics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Primes3.h">
+    <ClInclude Include="..\source\Modulus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Primes5.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\source\PrimeSets\Primes3.h">
+      <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Primes7.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\source\PrimeSets\Primes5.h">
+      <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Primes9.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\source\PrimeSets\Primes7.h">
+      <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\PrimeSet.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\source\PrimeSets\Primes9.h">
+      <Filter>Header Files\PrimeSets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PrimeSets\PrimeSet.h">
+      <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Modulus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\source\Transform1.ipp">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
