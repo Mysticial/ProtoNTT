@@ -78,10 +78,70 @@ int main(){
         Modulus p(p3m1,0);
 
         int k = 2;
-        size_t L = (size_t)1 << k;
+        size_t L = (size_t)p.multiplier << k;
         p.make_tables(k);
 
         uint64_t T[] = {5, 3, 7, 8};
+        cout << "T   = "; print(T,L);
+
+        p.forward(T);
+        p.inverse_fmul(T,T);
+        for (size_t c = 0; c < L; c++){
+            T[c] = p.scale_down(k,T[c]);
+        }
+
+        cout << "T^2 = "; print(T,L);
+    }
+
+    //  Test a tiny 12-point square convolution.
+    {
+        Modulus p(p3m3,0);
+
+        int k = 2;
+        size_t L = (size_t)p.multiplier << k;
+        p.make_tables(k);
+
+        uint64_t T[] = {9, 6, 8, 2, 1, 0, 9, 6, 2, 4, 9, 0};
+        cout << "T   = "; print(T,L);
+
+        p.forward(T);
+        p.inverse_fmul(T,T);
+        for (size_t c = 0; c < L; c++){
+            T[c] = p.scale_down(k,T[c]);
+        }
+
+        cout << "T^2 = "; print(T,L);
+    }
+
+    //  Test a tiny 20-point square convolution.
+    {
+        Modulus p(p3m5,0);
+
+        int k = 2;
+        size_t L = (size_t)p.multiplier << k;
+        p.make_tables(k);
+
+        uint64_t T[] = {5, 8, 1, 1, 7, 7, 7, 3, 5, 1, 1, 0, 3, 8, 0, 3, 9, 8, 5, 8};
+        cout << "T   = "; print(T,L);
+
+        p.forward(T);
+        p.inverse_fmul(T,T);
+        for (size_t c = 0; c < L; c++){
+            T[c] = p.scale_down(k,T[c]);
+        }
+
+        cout << "T^2 = "; print(T,L);
+    }
+
+    //  Test a tiny 28-point square convolution.
+    {
+        Modulus p(p3m7,0);
+
+        int k = 2;
+        size_t L = (size_t)p.multiplier << k;
+        p.make_tables(k);
+
+        uint64_t T[] = {2, 7, 6, 2, 3, 6, 1, 8, 0, 3, 0, 8, 6, 7, 6, 9, 9, 0, 3, 6, 7, 4, 3, 2, 6, 4, 6, 1};
         cout << "T   = "; print(T,L);
 
         p.forward(T);

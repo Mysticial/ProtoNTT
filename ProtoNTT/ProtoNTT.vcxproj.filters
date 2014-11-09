@@ -16,6 +16,9 @@
     <Filter Include="Header Files\PrimeSets">
       <UniqueIdentifier>{f4765def-4d0a-489e-8fb1-a833a8fea795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\BaseTransforms">
+      <UniqueIdentifier>{e2a7bcab-2401-473c-aa46-60ae9f9107ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\ArchIntrinsics.h">
@@ -52,8 +55,17 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\source\Transform1.ipp">
-      <Filter>Source Files</Filter>
+    <None Include="..\source\BaseTransforms\Transform3.ipp">
+      <Filter>Source Files\BaseTransforms</Filter>
+    </None>
+    <None Include="..\source\BaseTransforms\Transform5.ipp">
+      <Filter>Source Files\BaseTransforms</Filter>
+    </None>
+    <None Include="..\source\BaseTransforms\Transform7.ipp">
+      <Filter>Source Files\BaseTransforms</Filter>
+    </None>
+    <None Include="..\source\BaseTransforms\Transform1.ipp">
+      <Filter>Source Files\BaseTransforms</Filter>
     </None>
   </ItemGroup>
 </Project>

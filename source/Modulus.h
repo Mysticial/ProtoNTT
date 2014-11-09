@@ -68,12 +68,16 @@ public:
 
 public:
     FORCE_INLINE void forward(uint64_t* T) const{
+        //  Perform forward transform of length: m * 2^BASE_K
         fp_forward(*this,T);
     }
     FORCE_INLINE void inverse_fmul(uint64_t* T,const uint64_t* A) const{
+        //  Perform pointwise products with A.
+        //  Perform inverse transform of length: m * 2^BASE_K
         fp_inverse_fmul(*this,T,A);
     }
     FORCE_INLINE uint64_t scale_down(int k,uint64_t x) const{
+        //  Compute: x * (m * 2^k)^-1 mod p
         return mulmod(x,scaling_factors[k]);
     }
 

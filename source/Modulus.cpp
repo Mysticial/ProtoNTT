@@ -7,10 +7,10 @@
  */
 
 #include "Modulus.h"
-#include "Transform1.ipp"
-//#include "Transform3.ipp"
-//#include "Transform5.ipp"
-//#include "Transform7.ipp"
+#include "BaseTransforms/Transform1.ipp"
+#include "BaseTransforms/Transform3.ipp"
+#include "BaseTransforms/Transform5.ipp"
+#include "BaseTransforms/Transform7.ipp"
 namespace ProtoNTT{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,18 +28,18 @@ Modulus::Modulus(const PrimeSet& set,int index)
             fp_forward = transform4_forward;
             fp_inverse_fmul = transform4_inverse_fmul;
             break;
-//        case 3:
-//            fp_forward = transform12_forward;
-//            fp_inverse_fmul = transform12_inverse_fmul;
-//            break;
-//        case 5:
-//            fp_forward = transform20_forward;
-//            fp_inverse_fmul = transform20_inverse_fmul;
-//            break;
-//        case 7:
-//            fp_forward = transform28_forward;
-//            fp_inverse_fmul = transform28_inverse_fmul;
-//            break;
+        case 3:
+            fp_forward = transform12_forward;
+            fp_inverse_fmul = transform12_inverse_fmul;
+            break;
+        case 5:
+            fp_forward = transform20_forward;
+            fp_inverse_fmul = transform20_inverse_fmul;
+            break;
+        case 7:
+            fp_forward = transform28_forward;
+            fp_inverse_fmul = transform28_inverse_fmul;
+            break;
         default:
             throw "Unsupported Multiplier";
     }

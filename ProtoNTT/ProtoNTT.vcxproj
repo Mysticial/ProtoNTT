@@ -158,7 +158,10 @@
     <ClCompile Include="..\source\Modulus.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\source\Transform1.ipp" />
+    <None Include="..\source\BaseTransforms\Transform1.ipp" />
+    <None Include="..\source\BaseTransforms\Transform3.ipp" />
+    <None Include="..\source\BaseTransforms\Transform5.ipp" />
+    <None Include="..\source\BaseTransforms\Transform7.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
