@@ -13,6 +13,7 @@
  */
 
 #include "source/Modulus.h"
+#include "source/Transforms.h"
 
 #include "source/PrimeSets/Primes3.h"
 #include "source/PrimeSets/Primes5.h"
@@ -43,20 +44,6 @@ void print(const uint64_t* A,size_t L){
 
 int main(){
 
-    //  Test a multiply modulus.
-    {
-        ModularRing p(7097673012735901697);
-        TwiddleFactor Wf = p.make_twiddle(4614278974170858164); //  Forward twiddle
-        TwiddleFactor Wi = p.make_twiddle(5800385079451287434); //  Inverse twiddle
-
-        uint64_t x = 5441918181069802676;
-        cout << "x            = " << x << endl;
-        x = p.mulmod(x,Wf);
-        cout << "x * W        = " << x << endl;
-        x = p.mulmod(x,Wi);
-        cout << "x * W * W^-1 = " << x << endl;
-    }
-
     //  Test modulus construction.
     {
         for (int c = 0; c < 3; c++){
@@ -73,19 +60,19 @@ int main(){
         }
     }
 
-    //  Test a tiny 4-point square convolution.
+    //  Test a 8-point square convolution.
     {
         Modulus p(p3m1,0);
 
-        int k = 2;
+        int k = 3;
         size_t L = (size_t)p.multiplier << k;
         p.make_tables(k);
 
-        uint64_t T[] = {5, 3, 7, 8};
+        uint64_t T[] = {6, 9, 0, 3, 2, 4, 7, 7};
         cout << "T   = "; print(T,L);
 
-        p.forward(T);
-        p.inverse_fmul(T,T);
+        transform_forward(p,k,T);
+        transform_inverse_fmul(p,k,T,T);
         for (size_t c = 0; c < L; c++){
             T[c] = p.scale_down(k,T[c]);
         }
@@ -93,19 +80,22 @@ int main(){
         cout << "T^2 = "; print(T,L);
     }
 
-    //  Test a tiny 12-point square convolution.
+    //  Test a 24-point square convolution.
     {
         Modulus p(p3m3,0);
 
-        int k = 2;
+        int k = 3;
         size_t L = (size_t)p.multiplier << k;
         p.make_tables(k);
 
-        uint64_t T[] = {9, 6, 8, 2, 1, 0, 9, 6, 2, 4, 9, 0};
+        uint64_t T[] = {
+            4, 2, 8, 6, 8, 4, 2, 5, 1, 6, 8, 5,
+            1, 7, 8, 3, 8, 8, 5, 0, 1, 0, 3, 5
+        };
         cout << "T   = "; print(T,L);
 
-        p.forward(T);
-        p.inverse_fmul(T,T);
+        transform_forward(p,k,T);
+        transform_inverse_fmul(p,k,T,T);
         for (size_t c = 0; c < L; c++){
             T[c] = p.scale_down(k,T[c]);
         }
@@ -117,15 +107,20 @@ int main(){
     {
         Modulus p(p3m5,0);
 
-        int k = 2;
+        int k = 3;
         size_t L = (size_t)p.multiplier << k;
         p.make_tables(k);
 
-        uint64_t T[] = {5, 8, 1, 1, 7, 7, 7, 3, 5, 1, 1, 0, 3, 8, 0, 3, 9, 8, 5, 8};
+        uint64_t T[] = {
+            9, 4, 5, 0, 5, 7, 4, 7, 8, 5,
+            8, 1, 3, 2, 4, 0, 6, 4, 3, 9,
+            4, 7, 5, 0, 0, 2, 9, 0, 4, 0,
+            3, 7, 7, 0, 7, 8, 0, 6, 0, 8
+        };
         cout << "T   = "; print(T,L);
 
-        p.forward(T);
-        p.inverse_fmul(T,T);
+        transform_forward(p,k,T);
+        transform_inverse_fmul(p,k,T,T);
         for (size_t c = 0; c < L; c++){
             T[c] = p.scale_down(k,T[c]);
         }
@@ -137,15 +132,20 @@ int main(){
     {
         Modulus p(p3m7,0);
 
-        int k = 2;
+        int k = 3;
         size_t L = (size_t)p.multiplier << k;
         p.make_tables(k);
 
-        uint64_t T[] = {2, 7, 6, 2, 3, 6, 1, 8, 0, 3, 0, 8, 6, 7, 6, 9, 9, 0, 3, 6, 7, 4, 3, 2, 6, 4, 6, 1};
+        uint64_t T[] = {
+            0, 8, 7, 4, 4, 8, 2, 3, 4, 5, 5, 6, 4, 3,
+            9, 9, 6, 2, 4, 3, 9, 3, 8, 7, 3, 6, 7, 3,
+            4, 8, 3, 2, 2, 9, 5, 0, 0, 1, 6, 9, 9, 5,
+            5, 2, 2, 9, 2, 0, 4, 3, 6, 5, 5, 7, 9, 5
+        };
         cout << "T   = "; print(T,L);
 
-        p.forward(T);
-        p.inverse_fmul(T,T);
+        transform_forward(p,k,T);
+        transform_inverse_fmul(p,k,T,T);
         for (size_t c = 0; c < L; c++){
             T[c] = p.scale_down(k,T[c]);
         }

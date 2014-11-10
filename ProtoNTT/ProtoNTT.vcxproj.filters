@@ -45,12 +45,18 @@
     <ClInclude Include="..\source\PrimeSets\PrimeSet.h">
       <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\Transforms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Modulus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Transforms.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
