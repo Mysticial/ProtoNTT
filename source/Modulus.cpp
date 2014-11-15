@@ -2,7 +2,7 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 11/01/2014
- * Last Modified    : 11/05/2014
+ * Last Modified    : 11/09/2014
  * 
  */
 
@@ -21,6 +21,8 @@ Modulus::Modulus(const PrimeSet& set,int index)
     : ModularRing(set.factor[index])
     , multiplier(set.m)
     , max_k(set.max_k)
+    , one(make_twiddle(1))
+    , word(make_twiddle(0xffffffffffffffff % prime + 1))
 {
     //  Set the function pointers for the end-point transforms.
     switch (multiplier){
@@ -178,6 +180,26 @@ uint64_t Modulus::power(const TwiddleFactor& x,uint64_t pow) const{
     }
 
     return out;
+}
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//  Array Operations
+uint64_t Modulus::generate(const uint64_t* T,size_t L) const{
+    //  Returns T mod p. T is a base 2^64 little-endian number.
+
+    //Conditions:
+    //  -   1 <= L
+
+    uint64_t x = T[--L];
+    while (L > 0){
+        x = mulmod(x,word);
+        x += reduce_p(T[--L]);
+    }
+
+    //  Final reduction can be done by multiplying by 1.
+    return mulmod(x,one);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

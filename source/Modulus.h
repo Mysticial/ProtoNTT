@@ -2,7 +2,7 @@
  * 
  * Author           : Alexander J. Yee
  * Date Created     : 11/01/2014
- * Last Modified    : 11/06/2014
+ * Last Modified    : 11/09/2014
  * 
  *      This class represents an NTT modulus. It encapsulates all metadata
  *  about the modulus including the precomputed twiddle factors.
@@ -24,6 +24,7 @@ namespace ProtoNTT{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 class Modulus : public ModularRing{
+public:
     static const int BASE_K = 2;
 
 public:
@@ -34,6 +35,9 @@ public:
 
     //  Transform length = multiplier * 2^k
     //  Maximum length = multiplier * 2^max_k
+
+    TwiddleFactor one;  //  1
+    TwiddleFactor word; //  2^64 mod p
 
     //  Size of the current twiddle factor table.
     int table_k = 0;
@@ -65,6 +69,7 @@ public:
 
 public:
     uint64_t power(const TwiddleFactor& x,uint64_t pow) const;
+    uint64_t generate(const uint64_t* T,size_t L) const;
 
 public:
     FORCE_INLINE void forward(uint64_t* T) const{

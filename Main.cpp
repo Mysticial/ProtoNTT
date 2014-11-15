@@ -12,8 +12,8 @@
  * 
  */
 
-#include "source/Modulus.h"
 #include "source/Transforms.h"
+#include "source/ModulusSet.h"
 
 #include "source/PrimeSets/Primes3.h"
 #include "source/PrimeSets/Primes5.h"
@@ -22,6 +22,7 @@
 
 using namespace ProtoNTT;
 
+#include <string.h>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -153,10 +154,31 @@ int main(){
         cout << "T^2 = "; print(T,L);
     }
 
+    //  Test a CRT.
+    {
+        ModulusSet set(p9m1);
+
+        uint64_t R[] = {
+            1840612861089888724ULL, 211220548242431273ULL,
+            10742799559211267726ULL, 10056489111922224330ULL
+        };
+        uint64_t T[9];
+        uint64_t carry[5];
+        memset(carry,0,sizeof(carry));
+
+        cout << "start = "; print(R,4);
+
+        set.start_block(R,T,1);
+        memset(R,0,sizeof(R));
+        set.finish_block(0,carry,R,T,1);
+
+        cout << "end   = "; print(R,4);
+    }
 
 
 
 
 
-    system("pause");
+
+    return system("pause");
 }
