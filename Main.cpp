@@ -12,13 +12,15 @@
  * 
  */
 
-#include "source/Transforms.h"
-#include "source/ModulusSet.h"
+#include "source/Internals/Transforms.h"
+#include "source/Internals/ModulusSet.h"
 
 #include "source/PrimeSets/Primes3.h"
 #include "source/PrimeSets/Primes5.h"
 #include "source/PrimeSets/Primes7.h"
 #include "source/PrimeSets/Primes9.h"
+
+#include "source/CoreTransformParameters.h"
 
 using namespace ProtoNTT;
 
@@ -104,7 +106,7 @@ int main(){
         cout << "T^2 = "; print(T,L);
     }
 
-    //  Test a tiny 20-point square convolution.
+    //  Test a tiny 40-point square convolution.
     {
         Modulus p(p3m5,0);
 
@@ -129,7 +131,7 @@ int main(){
         cout << "T^2 = "; print(T,L);
     }
 
-    //  Test a tiny 28-point square convolution.
+    //  Test a tiny 56-point square convolution.
     {
         Modulus p(p3m7,0);
 
@@ -153,6 +155,7 @@ int main(){
 
         cout << "T^2 = "; print(T,L);
     }
+    cout << endl;
 
     //  Test a CRT.
     {
@@ -174,8 +177,14 @@ int main(){
 
         cout << "end   = "; print(R,4);
     }
+    cout << endl;
 
-
+    //  Test parameter generation.
+    {
+        CoreTransformParameters tp(10000000);
+        tp.print();
+    }
+    cout << endl;
 
 
 

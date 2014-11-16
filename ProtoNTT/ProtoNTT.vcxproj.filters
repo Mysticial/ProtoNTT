@@ -16,20 +16,17 @@
     <Filter Include="Header Files\PrimeSets">
       <UniqueIdentifier>{f4765def-4d0a-489e-8fb1-a833a8fea795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Internals">
+      <UniqueIdentifier>{9b681edf-552a-4723-89a1-02d2c2659cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Internals">
+      <UniqueIdentifier>{ab9f8c28-f9c4-489f-903a-f96976fdfb07}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\BaseTransforms">
-      <UniqueIdentifier>{e2a7bcab-2401-473c-aa46-60ae9f9107ea}</UniqueIdentifier>
+      <UniqueIdentifier>{e1218f2c-5b14-4181-a953-21a336fa1e1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\ArchIntrinsics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ModularIntrinsics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Modulus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\PrimeSets\Primes3.h">
       <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
@@ -45,10 +42,25 @@
     <ClInclude Include="..\source\PrimeSets\PrimeSet.h">
       <Filter>Header Files\PrimeSets</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Transforms.h">
+    <ClInclude Include="..\source\TestFramework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ModulusSet.h">
+    <ClInclude Include="..\source\Internals\ArchIntrinsics.h">
+      <Filter>Header Files\Internals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Internals\ModularIntrinsics.h">
+      <Filter>Header Files\Internals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Internals\Modulus.h">
+      <Filter>Header Files\Internals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Internals\ModulusSet.h">
+      <Filter>Header Files\Internals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Internals\Transforms.h">
+      <Filter>Header Files\Internals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CoreTransformParameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,27 +68,33 @@
     <ClCompile Include="..\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Modulus.cpp">
+    <ClCompile Include="..\source\TestFramework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Transforms.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\source\Internals\Modulus.cpp">
+      <Filter>Source Files\Internals</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\ModulusSet.cpp">
+    <ClCompile Include="..\source\Internals\ModulusSet.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Internals\Transforms.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CoreTransformParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\source\BaseTransforms\Transform3.ipp">
+    <None Include="..\source\Internals\BaseTransforms\Transform1.ipp">
       <Filter>Source Files\BaseTransforms</Filter>
     </None>
-    <None Include="..\source\BaseTransforms\Transform5.ipp">
+    <None Include="..\source\Internals\BaseTransforms\Transform3.ipp">
       <Filter>Source Files\BaseTransforms</Filter>
     </None>
-    <None Include="..\source\BaseTransforms\Transform7.ipp">
+    <None Include="..\source\Internals\BaseTransforms\Transform5.ipp">
       <Filter>Source Files\BaseTransforms</Filter>
     </None>
-    <None Include="..\source\BaseTransforms\Transform1.ipp">
+    <None Include="..\source\Internals\BaseTransforms\Transform7.ipp">
       <Filter>Source Files\BaseTransforms</Filter>
     </None>
   </ItemGroup>

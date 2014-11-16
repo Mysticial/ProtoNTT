@@ -144,28 +144,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\ArchIntrinsics.h" />
-    <ClInclude Include="..\source\ModularIntrinsics.h" />
-    <ClInclude Include="..\source\Modulus.h" />
-    <ClInclude Include="..\source\ModulusSet.h" />
+    <ClInclude Include="..\source\CoreTransformParameters.h" />
+    <ClInclude Include="..\source\Internals\ArchIntrinsics.h" />
+    <ClInclude Include="..\source\Internals\ModularIntrinsics.h" />
+    <ClInclude Include="..\source\Internals\Modulus.h" />
+    <ClInclude Include="..\source\Internals\ModulusSet.h" />
+    <ClInclude Include="..\source\Internals\Transforms.h" />
     <ClInclude Include="..\source\PrimeSets\Primes3.h" />
     <ClInclude Include="..\source\PrimeSets\Primes5.h" />
     <ClInclude Include="..\source\PrimeSets\Primes7.h" />
     <ClInclude Include="..\source\PrimeSets\Primes9.h" />
     <ClInclude Include="..\source\PrimeSets\PrimeSet.h" />
-    <ClInclude Include="..\source\Transforms.h" />
+    <ClInclude Include="..\source\TestFramework.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Main.cpp" />
-    <ClCompile Include="..\source\Modulus.cpp" />
-    <ClCompile Include="..\source\ModulusSet.cpp" />
-    <ClCompile Include="..\source\Transforms.cpp" />
+    <ClCompile Include="..\source\CoreTransformParameters.cpp" />
+    <ClCompile Include="..\source\Internals\Modulus.cpp" />
+    <ClCompile Include="..\source\Internals\ModulusSet.cpp" />
+    <ClCompile Include="..\source\Internals\Transforms.cpp" />
+    <ClCompile Include="..\source\TestFramework.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\source\BaseTransforms\Transform1.ipp" />
-    <None Include="..\source\BaseTransforms\Transform3.ipp" />
-    <None Include="..\source\BaseTransforms\Transform5.ipp" />
-    <None Include="..\source\BaseTransforms\Transform7.ipp" />
+    <None Include="..\source\Internals\BaseTransforms\Transform1.ipp" />
+    <None Include="..\source\Internals\BaseTransforms\Transform3.ipp" />
+    <None Include="..\source\Internals\BaseTransforms\Transform5.ipp" />
+    <None Include="..\source\Internals\BaseTransforms\Transform7.ipp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
