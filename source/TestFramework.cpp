@@ -183,6 +183,20 @@ double wall_clock(){
     double ratio = (double)ratio_object.num / ratio_object.den;
     return std::chrono::high_resolution_clock::now().time_since_epoch().count() * ratio;
 }
+void print(const uint64_t* A,size_t L){
+    if (L == 0){
+        std::cout << "{}" << std::endl;
+        return;
+    }
+
+    std::cout << "{";
+
+    L--;
+    for (size_t c = 0; c < L; c++){
+        std::cout << (A[c]) << ",";
+    }
+    std::cout << A[L] << "}" << std::endl;
+}
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
