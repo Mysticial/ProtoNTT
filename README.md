@@ -8,7 +8,7 @@ As its name implies, ProtoNTT is a prototype. While it has all the basic low-eff
 **Motivation:**<br>
 ProtoNTT is an experiment to test the viability of the Small Primes NTT algorithm against the [y-cruncher project](http://www.numberworld.org/y-cruncher/).
 
-Historically, the Small Primes NTT has been a popular last-resort algorithm for extremely large multiplications where Floating-Point FFT is no longer viable. It is als onotorious for being slow. But this has changed ever since Victor Shoup found an efficient way to perform a multiply-modulus using only 3 multiplications and no divisions.
+Historically, the Small Primes NTT has been a popular last-resort algorithm for extremely large multiplications where Floating-Point FFT is no longer viable. It is also notorious for being slow. But this has changed ever since Victor Shoup found an efficient way to perform a multiply-modulus using only 3 multiplications and no divisions.
 
 **Results:**<br>
 
