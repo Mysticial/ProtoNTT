@@ -1,14 +1,14 @@
 ProtoNTT
 ========
 
-ProtoNTT is a basic implementation of the Small Primes Number-Theoretic Transform (NTT) algorithm for multiplication of large integers.
+ProtoNTT is a basic implementation of the [Small Primes Number-Theoretic Transform (NTT) algorithm](http://www.apfloat.org/ntt.html) for multiplication of large integers.
 
 As its name implies, ProtoNTT is a prototype. While it has all the basic low-effort/high-payoff CPU optimizations, it lacks the difficult-to-do memory optimizations that are needed to make it viable in a serious bignum application. Nevertheless, ProtoNTT is still "reasonably" efficient and is open-sourced here for educational purposes.
 
 **Motivation:**<br>
 ProtoNTT is an experiment to test the viability of the Small Primes NTT algorithm against the [y-cruncher project](http://www.numberworld.org/y-cruncher/).
 
-Historically, the Small Primes NTT has been a popular last-resort algorithm for extremely large multiplications when Floating-Point FFT is no longer viable. It is notorious for being slow. But this has changed ever since Victor Shoup found an efficient way to perform a multiply-modulus using only 3 multiplications and no divisions.
+Historically, the Small Primes NTT has been a popular last-resort algorithm for extremely large multiplications where Floating-Point FFT is no longer viable. It is als onotorious for being slow. But this has changed ever since Victor Shoup found an efficient way to perform a multiply-modulus using only 3 multiplications and no divisions.
 
 **Results:**<br>
 
