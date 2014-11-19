@@ -5,6 +5,15 @@ ProtoNTT is a basic implementation of the [Small Primes Number-Theoretic Transfo
 
 As its name implies, ProtoNTT is a prototype. While it has all the basic low-effort/high-payoff CPU optimizations, it lacks the difficult-to-do memory optimizations that are needed to make it viable in a serious bignum application. Nevertheless, ProtoNTT is still "reasonably" efficient and is open-sourced here for educational purposes.
 
+**Build Instructions/Requirements:**<br>
+ - Hardware: x64 is required. The program will not compile for 32-bit.
+ - Compiler:
+     - Windows: Visual Studio 2013 update 2 or later. (update 2 is needed for the add-with-carry intrinsics)
+     - Linux: GCC 4.8 or later.
+
+A Visual Studio project is included. The Linux version can be built by simply running `compile-gcc.sh`.
+
+
 **Motivation:**<br>
 ProtoNTT is an experiment to test the viability of the Small Primes NTT algorithm against the [y-cruncher project](http://www.numberworld.org/y-cruncher/).
 
