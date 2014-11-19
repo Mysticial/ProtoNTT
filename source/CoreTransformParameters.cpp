@@ -21,9 +21,11 @@ CoreTransformParameters::CoreTransformParameters(uint64_t cbitlen){
     //  This uses a very basic heuristic to select the parameters. They are
     //  definitely not optimal.
 
-    //  Always use 3 primes for now. Once the benchmark framework is done, use
-    //  it to find the thresholds for switching between the # of primes.
-    primes = 3;
+    //  Select the # of primes. These were found through benchmarking.
+    if (cbitlen < 512)  primes = 3;
+    if (cbitlen < 768)  primes = 5;
+    if (cbitlen < 2048) primes = 7;
+    else                primes = 9;
 
     uint64_t scale = (primes - 1) * 32;
 

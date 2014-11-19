@@ -65,6 +65,8 @@ private:
     void CRT_reduce1(uint64_t P[MAX_PRIMES + 2]) const;
     void CRT_reduce2(uint64_t P[MAX_PRIMES + 1]) const;
     void carryout(uint64_t* carry,uint64_t* T,uint64_t* P) const;
+
+    void operator=(const ModulusSet&) = delete;
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

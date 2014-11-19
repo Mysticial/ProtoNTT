@@ -20,10 +20,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#ifdef _WIN32
+#ifdef _MSC_VER
 //  Windows Includes
 #include <Windows.h>
 #include <intrin.h>
+#pragma warning(disable:4127)   //  Constant Expression
 #else
 //  Linux/GCC Includes
 #endif
@@ -38,7 +39,7 @@ namespace ProtoNTT{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Visual Studio
-#ifdef _WIN32
+#ifdef _MSC_VER
 #define FORCE_INLINE inline __forceinline
 FORCE_INLINE uint64_t mulH(uint64_t a,uint64_t b){
     uint64_t H;

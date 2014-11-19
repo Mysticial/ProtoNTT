@@ -162,6 +162,9 @@ void pause(){
     std::string out;
     std::getline(std::cin,out);
 }
+void print_commas(uint64_t x){
+    std::cout << tostr_u_commas(x);
+}
 uint64_t bits_to_decimal(uint64_t bits){
     const double RATIO = 0.30102999566398119521373889472449302676818988146211;
     return (uint64_t)(bits * RATIO);

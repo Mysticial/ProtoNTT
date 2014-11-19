@@ -51,6 +51,10 @@ public:
         update_sizes();
     }
 
+    static void time_benchmark(int primes,int multiplier,int k,double seconds = 4.0,int table_reduction = 0);
+
+    void bench_multiply(int table_reduction = 0);
+    void bench_multiply(size_t AL,size_t BL,int table_reduction = 0);
     void test() const;
 
     void print() const;
@@ -86,6 +90,8 @@ private:
         Psize = 0;
     }
     void check_k() const{
+        if (k < Modulus::BASE_K)
+            throw "Transform length is too small.";
         if (k > set->max_k)
             throw "Maximum transform length exceeded for this prime/multiplier combination.";
     }

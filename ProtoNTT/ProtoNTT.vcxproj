@@ -151,6 +151,7 @@
     <ClInclude Include="..\source\Internals\Modulus.h" />
     <ClInclude Include="..\source\Internals\ModulusSet.h" />
     <ClInclude Include="..\source\Internals\Transforms.h" />
+    <ClInclude Include="..\source\Menus.h" />
     <ClInclude Include="..\source\PrimeSets\Primes3.h" />
     <ClInclude Include="..\source\PrimeSets\Primes5.h" />
     <ClInclude Include="..\source\PrimeSets\Primes7.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="..\source\Internals\Modulus.cpp" />
     <ClCompile Include="..\source\Internals\ModulusSet.cpp" />
     <ClCompile Include="..\source\Internals\Transforms.cpp" />
+    <ClCompile Include="..\source\Menus.cpp" />
     <ClCompile Include="..\source\TestFramework.cpp" />
   </ItemGroup>
   <ItemGroup>

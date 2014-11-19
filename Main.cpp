@@ -5,18 +5,17 @@
  * Last Modified    : Always...
  * 
  *      Since ProtoNTT is really just a library, there really is no need for a
- *  main method. But it exists to develop and test the library.
- * 
- *  When it's finished, I may put a small UI here that will run and verify
- *  test multiplications using random data.
+ *  main method. But it exists to provide a basic UI to run benchmarks and tests.
  * 
  */
 
 #include "source/BasicTransformParameters.h"
 #include "source/TestFramework.h"
+#include "source/Menus.h"
 
 using namespace ProtoNTT;
 
+#include <limits.h>
 #include <string.h>
 #include <iostream>
 using std::cout;
@@ -74,33 +73,45 @@ void sample(){
     //  tables for all 16 modes which could use a lot of memory.
 }
 
-void run_integration_tests(){
-    std::cout << "Running start-to-finish tests for all modes..." << std::endl << std::endl;
-
-    int k = 10;
-    TwiddleTable table;
-    BasicTransformParameters(3,1,k,table).test();
-    BasicTransformParameters(3,3,k,table).test();
-    BasicTransformParameters(3,5,k,table).test();
-    BasicTransformParameters(3,7,k,table).test();
-    BasicTransformParameters(5,1,k,table).test();
-    BasicTransformParameters(5,3,k,table).test();
-    BasicTransformParameters(5,5,k,table).test();
-    BasicTransformParameters(5,7,k,table).test();
-    BasicTransformParameters(7,1,k,table).test();
-    BasicTransformParameters(7,3,k,table).test();
-    BasicTransformParameters(7,5,k,table).test();
-    BasicTransformParameters(7,7,k,table).test();
-    BasicTransformParameters(9,1,k,table).test();
-    BasicTransformParameters(9,3,k,table).test();
-    BasicTransformParameters(9,5,k,table).test();
-    BasicTransformParameters(9,7,k,table).test();
-    std::cout << std::endl;
-}
-
 int main(){
+    try{
+        std::cout << "ProtoNTT Tester v1.0.0" << std::endl;
+        std::cout << std::endl;
 
-    run_integration_tests();
+        std::cout << "Select an option:" << std::endl;
+        std::cout << "    0     Benchmark: Equal Length Operands" << std::endl;
+        std::cout << "    1     Benchmark: Different Length Operands" << std::endl;
+        std::cout << "    2     Benchmark: Custom NTT Parameters" << std::endl;
+        std::cout << "    3     Run Integration Tests" << std::endl;
+        std::cout << std::endl;
+
+        while (1){
+            std::cout << "choice = ";
+            int choice;
+            std::cin >> choice;
+            std::cin.ignore(INT_MAX,'\n');
+            std::cout << std::endl;
+            switch (choice){
+                case 0:
+                    bench_equal_length();
+                    break;
+                case 1:
+                    bench_different_length();
+                    break;
+                case 2:
+                    bench_parameters();
+                    break;
+                case 3:
+                    run_integration_tests();
+                    break;
+                default:
+                    continue;
+            }
+            break;
+        };
+    }catch (const char* err){
+        std::cout << "Error: " << err << std::endl;
+    }
 
 
 #ifdef _WIN32

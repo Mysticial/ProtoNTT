@@ -1,1 +1,1 @@
-g++ *.cpp source/*.cpp -std=c++0x -Wall -O2
+g++ *.cpp source/*.cpp source/Internals/*.cpp -std=c++0x -Wall -O2
