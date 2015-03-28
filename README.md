@@ -3,7 +3,7 @@ ProtoNTT
 
 ProtoNTT is a basic implementation of the [Small Primes Number-Theoretic Transform (NTT) algorithm](http://www.apfloat.org/ntt.html) for multiplication of large integers.
 
-As its name implies, ProtoNTT is a prototype. While it has all the basic low-effort/high-payoff CPU optimizations, it lacks the difficult-to-do memory optimizations that are needed to make it viable in a serious bignum application. Nevertheless, ProtoNTT is still "reasonably" efficient and is open-sourced here for educational purposes.
+ProtoNTT is an early prototype for the Small Primes NTT that was added to [y-cruncher v0.6.8](http://www.numberworld.org/y-cruncher/). This prototype has most of the low-effort/high-payoff optimizations. But it lacks all the difficult memory optimizations that are needed to make it viable in a serious bignum application. Nevertheless, ProtoNTT is still "reasonably" efficient and is open-sourced here for educational purposes.
 
 **Build Instructions/Requirements:**<br>
  - Hardware: x64 is required. The program will not compile for 32-bit.
@@ -13,40 +13,23 @@ As its name implies, ProtoNTT is a prototype. While it has all the basic low-eff
 
 A Visual Studio project is included. The Linux version can be built by simply running `compile-gcc.sh`.
 
+**Comparison with y-cruncher v0.6.8's NTT:**<br>
 
-**Motivation:**<br>
-ProtoNTT is an experiment to test the viability of the Small Primes NTT algorithm against the [y-cruncher project](http://www.numberworld.org/y-cruncher/).
+|Feature(s)                         |ProtoNTT      |y-cruncher v0.6.8                         |
+|-----------------------------------|--------------|------------------------------------------|
+|Prime Size                         |63-bit        |63-bit                                    |
+|# of Primes                        |3, 5, 7, or 9 |3, 4, 5, 6, 7, 8, or 9                    |
+|Transform Lengths                  |2<sup>k</sup>, 3·2<sup>k</sup>, 5·2<sup>k</sup>, 7·2<sup>k</sup>|2<sup>k</sup>, 3·2<sup>k</sup>, 5·2<sup>k</sup>, 7·2<sup>k</sup>|
+|Maximum Convolution Length         |~`10^18` bits |~`10^18` bits                             |
+|Parallelization                    |No            |Yes                                       |
+|Swap Mode (Out-of-core Computation)|No            |Yes                                       |
+|Supported Architectures            |x64           |Any 32-bit or 64-bit                      |
+|Processor-Specific Optimizations   |x64           |x86, x64, SSE4.2, XOP, AVX2, AVX512-(F/DQ)|
+|Butterfly Radix                    |Radix 2       |Generalized Bailey's 4-step               |
+|Twiddle Factor Table Size          |O(N)          |O(1)                                      |
 
-Historically, the Small Primes NTT has been a popular last-resort algorithm for extremely large multiplications where Floating-Point FFT is no longer viable. It is also notorious for being slow. But this has changed ever since Victor Shoup found an efficient way to perform a multiply-modulus using only 3 multiplications and no divisions.
+The only thing that prevents ProtoNTT from being a viable algorithm is that:
+ - It uses much memory when all twiddle factors are precomputed. (4x the transform size)
+ - It is too slow when no twiddle factors are precomputed. (3x slower)
 
-**Results:**<br>
-
-Unfortunately, ProtoNTT still turned out to be quite a disappointment. At best it barely comes within a factor of 2x against y-cruncher on Sandy Bridge (and worse on other processors). While ProtoNTT still has room for optimizations, overcoming a difference of > 2x seems a bit of a long-shot.
-
-Nevertheless, y-cruncher will probably get a Small Primes NTT anyway as it's necessary to overcome its current limitation of approximately 90 trillion digits. At that size, performance matters less as it will probably be disk-bound.
-
-**ProtoNTT Features:**<br>
- - Uses Victor Shoup's butterfly with 63-bit primes.
- - Supports transform sizes of: `2^k`, `3*2^k`, `5*2^k`, and `7*2^k`.
- - Supports 3, 5, 7, and 9 primes.
- - Maximum convolution length is upwards of `10^18` bits.
- - Basic CPU optimizations for x64. (x64 is required)
- - Basic micro-optimizations.
- - Basic radix-2 recursive FFT.
-
-**Missing Features:**
- - No cache or memory optimizations.
- - No attempt to be efficient when twiddle factors are not precomputed.
- - No parallelization.
- - No vectorization.
- - No swap mode (out-of-core) support.
-
-**Problems with ProtoNTT:**
- - **The size of the twiddle factor table is horrendous:**
-     - Precomputing all the necessary twiddle factors requires 4x more memory than the transform itself. Proportionally, it needs 4x more than the Floating-Point FFT. In the FFT, you save a factor of 2 because forward/inverse twiddles are complex conjugates. In the NTT, you can't do that and you lose a factor of 2 because you also need `Wp = W*2^64 / p` for each twiddle. Precomputing only *some* of the twiddles leads to a space-time trade-off.
- - **The algorithm will not vectorize on current hardware:**
-     - There is no vectorized 64 x 64 -> 128-bit multiply on x86. AVX512-DQ has `vpmullq` which gets the lower-half, but we still need the top half.
-     - There is no 64-bit integer compare prior to SSE4.2. And then, SSE4.2 brings only a greater-than compare. AMD's XOP finally gets it right and AVX512-F is perfect since it also embedded masking designed specifically for conditional operations.
-     - The CRT construction step requires bignum arithmetic. Again we need a vectorized 64 x 64 -> 128-bit multiply to be efficient. As a consolation prize, we have MULX and ADCX/ADOX.
- 
-
+The space-time trade-off curve for precomputing a subset of twiddle factors is particularly unfavorable for ProtoNTT. The cuts needed to reduce the table down to a reasonable size will easily slap on a performance penalty of 50% or more to an already slow algorithm.
