@@ -27,6 +27,7 @@ A Visual Studio project is included. The Linux version can be built by simply ru
 |Processor-Specific Optimizations   |x64           |x86, x64, SSE4.2, XOP, AVX2, AVX512-(F/DQ)|
 |Butterfly Radix                    |Radix 2       |Generalized Bailey's 4-step               |
 |Twiddle Factor Table Size          |O(N)          |O(1)                                      |
+|Lines of Code                      |3,557         |36,224 (excluding dependencies)           |
 
 The only thing that prevents ProtoNTT from being a viable algorithm is that:
  - It uses much memory when all twiddle factors are precomputed. (4x the transform size)
