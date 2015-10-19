@@ -14,11 +14,11 @@ namespace ProtoNTT{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 template <bool forward> FORCE_INLINE
-void transform7(const Modulus& p,uint64_t T[7]){
+void transform7(const Modulus& p, uint64_t T[7]){
     //  Inputs must be fully reduced.
     //  Outputs are fully reduced.
 
-    uint64_t r0,r1,r2,r3,r4,r5,r6;
+    uint64_t r0, r1, r2, r3, r4, r5, r6;
     r0 = T[0];
     r1 = T[1];
     r2 = T[2];
@@ -27,8 +27,8 @@ void transform7(const Modulus& p,uint64_t T[7]){
     r5 = T[5];
     r6 = T[6];
 
-    uint64_t e1,e2,e3,e4,e5,e6;
-    uint64_t rA,rB,rC,rD,rE,rF,rG;
+    uint64_t e1, e2, e3, e4, e5, e6;
+    uint64_t rA, rB, rC, rD, rE, rF, rG;
     e1 = r1;
     e2 = r2;
     e3 = r3;
@@ -56,13 +56,13 @@ void transform7(const Modulus& p,uint64_t T[7]){
         const TwiddleFactor& w1 = forward
             ? p.forward_table[0][1]
             : p.inverse_table[0][1];
-        uint64_t bw,cw,dw,ew,fw,gw;
-        bw = p.mulmod(r1,w1);
-        cw = p.mulmod(r2,w1);
-        dw = p.mulmod(r3,w1);
-        ew = p.mulmod(r4,w1);
-        fw = p.mulmod(r5,w1);
-        gw = p.mulmod(r6,w1);
+        uint64_t bw, cw, dw, ew, fw, gw;
+        bw = p.mulmod(r1, w1);
+        cw = p.mulmod(r2, w1);
+        dw = p.mulmod(r3, w1);
+        ew = p.mulmod(r4, w1);
+        fw = p.mulmod(r5, w1);
+        gw = p.mulmod(r6, w1);
         e1 = p.reduce_p(e1 + bw);
         e2 = p.reduce_p(e2 + cw);
         e3 = p.reduce_p(e3 + dw);
@@ -80,13 +80,13 @@ void transform7(const Modulus& p,uint64_t T[7]){
         const TwiddleFactor& w1 = forward
             ? p.forward_table[0][2]
             : p.inverse_table[0][2];
-        uint64_t bw,cw,dw,ew,fw,gw;
-        bw = p.mulmod(r1,w1);
-        cw = p.mulmod(r2,w1);
-        dw = p.mulmod(r3,w1);
-        ew = p.mulmod(r4,w1);
-        fw = p.mulmod(r5,w1);
-        gw = p.mulmod(r6,w1);
+        uint64_t bw, cw, dw, ew, fw, gw;
+        bw = p.mulmod(r1, w1);
+        cw = p.mulmod(r2, w1);
+        dw = p.mulmod(r3, w1);
+        ew = p.mulmod(r4, w1);
+        fw = p.mulmod(r5, w1);
+        gw = p.mulmod(r6, w1);
         e1 = p.reduce_p(e1 + bw);
         e2 = p.reduce_p(e2 + cw);
         e3 = p.reduce_p(e3 + dw);
@@ -104,13 +104,13 @@ void transform7(const Modulus& p,uint64_t T[7]){
         const TwiddleFactor& w1 = forward
             ? p.forward_table[0][3]
             : p.inverse_table[0][3];
-        uint64_t bw,cw,dw,ew,fw,gw;
-        bw = p.mulmod(r1,w1);
-        cw = p.mulmod(r2,w1);
-        dw = p.mulmod(r3,w1);
-        ew = p.mulmod(r4,w1);
-        fw = p.mulmod(r5,w1);
-        gw = p.mulmod(r6,w1);
+        uint64_t bw, cw, dw, ew, fw, gw;
+        bw = p.mulmod(r1, w1);
+        cw = p.mulmod(r2, w1);
+        dw = p.mulmod(r3, w1);
+        ew = p.mulmod(r4, w1);
+        fw = p.mulmod(r5, w1);
+        gw = p.mulmod(r6, w1);
         e1 = p.reduce_p(e1 + bw);
         e2 = p.reduce_p(e2 + cw);
         e3 = p.reduce_p(e3 + dw);
@@ -128,13 +128,13 @@ void transform7(const Modulus& p,uint64_t T[7]){
         const TwiddleFactor& w1 = forward
             ? p.forward_table[0][4]
             : p.inverse_table[0][4];
-        uint64_t bw,cw,dw,ew,fw,gw;
-        bw = p.mulmod(r1,w1);
-        cw = p.mulmod(r2,w1);
-        dw = p.mulmod(r3,w1);
-        ew = p.mulmod(r4,w1);
-        fw = p.mulmod(r5,w1);
-        gw = p.mulmod(r6,w1);
+        uint64_t bw, cw, dw, ew, fw, gw;
+        bw = p.mulmod(r1, w1);
+        cw = p.mulmod(r2, w1);
+        dw = p.mulmod(r3, w1);
+        ew = p.mulmod(r4, w1);
+        fw = p.mulmod(r5, w1);
+        gw = p.mulmod(r6, w1);
         e1 = p.reduce_p(e1 + bw);
         e2 = p.reduce_p(e2 + cw);
         e3 = p.reduce_p(e3 + dw);
@@ -152,13 +152,13 @@ void transform7(const Modulus& p,uint64_t T[7]){
         const TwiddleFactor& w1 = forward
             ? p.forward_table[0][5]
             : p.inverse_table[0][5];
-        uint64_t bw,cw,dw,ew,fw,gw;
-        bw = p.mulmod(r1,w1);
-        cw = p.mulmod(r2,w1);
-        dw = p.mulmod(r3,w1);
-        ew = p.mulmod(r4,w1);
-        fw = p.mulmod(r5,w1);
-        gw = p.mulmod(r6,w1);
+        uint64_t bw, cw, dw, ew, fw, gw;
+        bw = p.mulmod(r1, w1);
+        cw = p.mulmod(r2, w1);
+        dw = p.mulmod(r3, w1);
+        ew = p.mulmod(r4, w1);
+        fw = p.mulmod(r5, w1);
+        gw = p.mulmod(r6, w1);
         e1 = p.reduce_p(e1 + bw);
         e2 = p.reduce_p(e2 + cw);
         e3 = p.reduce_p(e3 + dw);
@@ -184,93 +184,93 @@ void transform7(const Modulus& p,uint64_t T[7]){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void transform7_forward(const Modulus& p,uint64_t T[7]){
-    transform7<true>(p,T);
+void transform7_forward(const Modulus& p, uint64_t T[7]){
+    transform7<true>(p, T);
 }
-void transform7_inverse_fmul(const Modulus& p,uint64_t T[7],const uint64_t A[7]){
-    T[0] = p.mulmod(T[0],p.make_twiddle(A[0]));
-    T[1] = p.mulmod(T[1],p.make_twiddle(A[1]));
-    T[2] = p.mulmod(T[2],p.make_twiddle(A[2]));
-    T[3] = p.mulmod(T[3],p.make_twiddle(A[3]));
-    T[4] = p.mulmod(T[4],p.make_twiddle(A[4]));
-    T[5] = p.mulmod(T[5],p.make_twiddle(A[5]));
-    T[6] = p.mulmod(T[6],p.make_twiddle(A[6]));
-    transform7<false>(p,T);
+void transform7_inverse_fmul(const Modulus& p, uint64_t T[7], const uint64_t A[7]){
+    T[0] = p.mulmod(T[0], p.make_twiddle(A[0]));
+    T[1] = p.mulmod(T[1], p.make_twiddle(A[1]));
+    T[2] = p.mulmod(T[2], p.make_twiddle(A[2]));
+    T[3] = p.mulmod(T[3], p.make_twiddle(A[3]));
+    T[4] = p.mulmod(T[4], p.make_twiddle(A[4]));
+    T[5] = p.mulmod(T[5], p.make_twiddle(A[5]));
+    T[6] = p.mulmod(T[6], p.make_twiddle(A[6]));
+    transform7<false>(p, T);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-void transform28_forward(const Modulus& p,uint64_t T[28]){
+void transform28_forward(const Modulus& p, uint64_t T[28]){
     const auto& tw2 = p.forward_table[2];
     const auto& tw1 = p.forward_table[1];
     {
-        uint64_t r0,r1,r2,r3;
+        uint64_t r0, r1, r2, r3;
         r0 = T[ 0];
         r1 = T[ 7];
         r2 = T[14];
         r3 = T[21];
-        p.butterfly2_forward(r0,r2);
-        p.butterfly2_forward(r1,r3,tw2[7]);
-        p.butterfly2_forward(r0,r1);
-        p.butterfly2_forward(r2,r3);
+        p.butterfly2_forward(r0, r2);
+        p.butterfly2_forward(r1, r3, tw2[7]);
+        p.butterfly2_forward(r0, r1);
+        p.butterfly2_forward(r2, r3);
         T[ 0] = r0;
         T[ 7] = r1;
         T[14] = r2;
         T[21] = r3;
     }
     for (int c = 1; c < 7; c++){
-        uint64_t r0,r1,r2,r3;
+        uint64_t r0, r1, r2, r3;
         r0 = T[c +  0];
         r1 = T[c +  7];
         r2 = T[c + 14];
         r3 = T[c + 21];
-        p.butterfly2_forward(r0,r2,tw2[c + 0]);
-        p.butterfly2_forward(r1,r3,tw2[c + 7]);
-        p.butterfly2_forward(r0,r1,tw1[c + 0]);
-        p.butterfly2_forward(r2,r3,tw1[c + 0]);
+        p.butterfly2_forward(r0, r2, tw2[c + 0]);
+        p.butterfly2_forward(r1, r3, tw2[c + 7]);
+        p.butterfly2_forward(r0, r1, tw1[c + 0]);
+        p.butterfly2_forward(r2, r3, tw1[c + 0]);
         T[c +  0] = r0;
         T[c +  7] = r1;
         T[c + 14] = r2;
         T[c + 21] = r3;
     }
 
-    transform7_forward(p,T +  0);
-    transform7_forward(p,T +  7);
-    transform7_forward(p,T + 14);
-    transform7_forward(p,T + 21);
+    transform7_forward(p, T +  0);
+    transform7_forward(p, T +  7);
+    transform7_forward(p, T + 14);
+    transform7_forward(p, T + 21);
 }
-void transform28_inverse_fmul(const Modulus& p,uint64_t T[28],const uint64_t A[28]){
-    transform7_inverse_fmul(p,T +  0,A +  0);
-    transform7_inverse_fmul(p,T +  7,A +  7);
-    transform7_inverse_fmul(p,T + 14,A + 14);
-    transform7_inverse_fmul(p,T + 21,A + 21);
+void transform28_inverse_fmul(const Modulus& p, uint64_t T[28], const uint64_t A[28]){
+    transform7_inverse_fmul(p, T +  0, A +  0);
+    transform7_inverse_fmul(p, T +  7, A +  7);
+    transform7_inverse_fmul(p, T + 14, A + 14);
+    transform7_inverse_fmul(p, T + 21, A + 21);
 
     const auto& tw2 = p.inverse_table[2];
     const auto& tw1 = p.inverse_table[1];
     {
-        uint64_t r0,r1,r2,r3;
+        uint64_t r0, r1, r2, r3;
         r0 = T[ 0];
         r1 = T[ 7];
         r2 = T[14];
         r3 = T[21];
-        p.butterfly2_inverse(r0,r1);
-        p.butterfly2_inverse(r2,r3);
-        p.butterfly2_inverse(r0,r2);
-        p.butterfly2_inverse(r1,r3,tw2[7]);
+        p.butterfly2_inverse(r0, r1);
+        p.butterfly2_inverse(r2, r3);
+        p.butterfly2_inverse(r0, r2);
+        p.butterfly2_inverse(r1, r3, tw2[7]);
         T[ 0] = r0;
         T[ 7] = r1;
         T[14] = r2;
         T[21] = r3;
     }
     for (int c = 1; c < 7; c++){
-        uint64_t r0,r1,r2,r3;
+        uint64_t r0, r1, r2, r3;
         r0 = T[c +  0];
         r1 = T[c +  7];
         r2 = T[c + 14];
         r3 = T[c + 21];
-        p.butterfly2_inverse(r0,r1,tw1[c + 0]);
-        p.butterfly2_inverse(r2,r3,tw1[c + 0]);
-        p.butterfly2_inverse(r0,r2,tw2[c + 0]);
-        p.butterfly2_inverse(r1,r3,tw2[c + 7]);
+        p.butterfly2_inverse(r0, r1, tw1[c + 0]);
+        p.butterfly2_inverse(r2, r3, tw1[c + 0]);
+        p.butterfly2_inverse(r0, r2, tw2[c + 0]);
+        p.butterfly2_inverse(r1, r3, tw2[c + 7]);
         T[c +  0] = r0;
         T[c +  7] = r1;
         T[c + 14] = r2;

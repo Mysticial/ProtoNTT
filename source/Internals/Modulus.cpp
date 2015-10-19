@@ -17,7 +17,7 @@ namespace ProtoNTT{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Constructors
-Modulus::Modulus(const PrimeSet& set,int index)
+Modulus::Modulus(const PrimeSet& set, int index)
     : ModularRing(set.factor[index])
     , multiplier(set.m)
     , max_k(set.max_k)
@@ -46,20 +46,20 @@ Modulus::Modulus(const PrimeSet& set,int index)
             throw "Unsupported Multiplier";
     }
 
-    make_scaling_factors(set.scaler[index],set.max_k);
+    make_scaling_factors(set.scaler[index], set.max_k);
     make_table_stubs(set.root_f[index]);
     sanity_check();
 }
-void Modulus::make_scaling_factors(uint64_t scaler,int max_k){
+void Modulus::make_scaling_factors(uint64_t scaler, int max_k){
     TwiddleFactor base = make_twiddle(scaler);
 
-    TwiddleFactor inv_2 = make_twiddle(mulmod(multiplier,base));
-    uint64_t inv_m = mulmod(2,base);
+    TwiddleFactor inv_2 = make_twiddle(mulmod(multiplier, base));
+    uint64_t inv_m = mulmod(2, base);
 
     scaling_factors.clear();
     scaling_factors.emplace_back(make_twiddle(inv_m));
     for (int k = 1; k <= max_k; k++){
-        inv_m = mulmod(inv_m,inv_2);
+        inv_m = mulmod(inv_m, inv_2);
         scaling_factors.emplace_back(make_twiddle(inv_m));
     }
 }
@@ -71,11 +71,11 @@ void Modulus::make_table_stubs(uint64_t primitive_root){
 
     int c = max_k;
     stub_f[c] = make_twiddle(primitive_root);
-    stub_i[c] = make_twiddle(power(make_twiddle(primitive_root),max_pow - 1));
+    stub_i[c] = make_twiddle(power(make_twiddle(primitive_root), max_pow - 1));
 
     while (c-- > 0){
-        stub_f[c] = make_twiddle(mulmod(stub_f[c + 1].W,stub_f[c + 1]));
-        stub_i[c] = make_twiddle(mulmod(stub_i[c + 1].W,stub_i[c + 1]));
+        stub_f[c] = make_twiddle(mulmod(stub_f[c + 1].W, stub_f[c + 1]));
+        stub_i[c] = make_twiddle(mulmod(stub_i[c + 1].W, stub_i[c + 1]));
     }
 }
 void Modulus::sanity_check() const{
@@ -83,7 +83,7 @@ void Modulus::sanity_check() const{
     {
         const TwiddleFactor& root_of_unity = stub_f.back();
         uint64_t test_power = (uint64_t)multiplier << (max_k - 1);
-        uint64_t actual = power(root_of_unity,test_power);
+        uint64_t actual = power(root_of_unity, test_power);
         uint64_t expected = prime - 1;
         if (actual != expected)
             throw "Root of unity does not satisfy: root^(m*2^(k - 1)) mod p = -1";
@@ -91,7 +91,7 @@ void Modulus::sanity_check() const{
 
     //  Check the scaling factor.
     {
-        uint64_t actual = mulmod(multiplier,scaling_factors[0]);
+        uint64_t actual = mulmod(multiplier, scaling_factors[0]);
         uint64_t expected = 1;
         if (actual != expected)
             throw "Scaling factor does not satisfy: scale * 2m mod p = 1";
@@ -129,8 +129,8 @@ void Modulus::make_tables(int k){
             inverse.emplace_back(ONE);
         }
         for (size_t i = 1; i < stop; i++){
-            uint64_t a = mulmod(forward[i - 1].W,stub_f[c]);
-            uint64_t b = mulmod(inverse[i - 1].W,stub_i[c]);
+            uint64_t a = mulmod(forward[i - 1].W, stub_f[c]);
+            uint64_t b = mulmod(inverse[i - 1].W, stub_i[c]);
             forward.emplace_back(make_twiddle(a));
             inverse.emplace_back(make_twiddle(b));
         }
@@ -141,8 +141,8 @@ void Modulus::make_tables(int k){
         auto& inverse = inverse_table[1];
 
         for (int c = 0; c < multiplier; c++){
-            uint64_t a = mulmod(forward[c].W,forward[c]);
-            uint64_t b = mulmod(inverse[c].W,inverse[c]);
+            uint64_t a = mulmod(forward[c].W, forward[c]);
+            uint64_t b = mulmod(inverse[c].W, inverse[c]);
             forward_table[0].emplace_back(make_twiddle(a));
             inverse_table[0].emplace_back(make_twiddle(b));
         }
@@ -155,7 +155,7 @@ void Modulus::make_tables(int k){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Scalar Operations
-uint64_t Modulus::power(const TwiddleFactor& x,uint64_t pow) const{
+uint64_t Modulus::power(const TwiddleFactor& x, uint64_t pow) const{
     if (pow == 0)
         return 1;
 
@@ -170,10 +170,10 @@ uint64_t Modulus::power(const TwiddleFactor& x,uint64_t pow) const{
 
     uint64_t out = x.W;
     while (--c > 0){
-        out = mulmod(out,make_twiddle(out));
+        out = mulmod(out, make_twiddle(out));
 
         if (pow & TOP_BIT){
-            out = mulmod(out,x);
+            out = mulmod(out, x);
         }
 
         pow <<= 1;
@@ -186,7 +186,7 @@ uint64_t Modulus::power(const TwiddleFactor& x,uint64_t pow) const{
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Array Operations
-uint64_t Modulus::generate(const uint64_t* T,size_t L) const{
+uint64_t Modulus::generate(const uint64_t* T, size_t L) const{
     //  Returns T mod p. T is a base 2^64 little-endian number.
 
     //Conditions:
@@ -194,12 +194,12 @@ uint64_t Modulus::generate(const uint64_t* T,size_t L) const{
 
     uint64_t x = T[--L];
     while (L > 0){
-        x = mulmod(x,word);
+        x = mulmod(x, word);
         x += reduce_p(T[--L]);
     }
 
     //  Final reduction can be done by multiplying by 1.
-    return mulmod(x,one);
+    return mulmod(x, one);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

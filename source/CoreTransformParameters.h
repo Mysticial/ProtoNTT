@@ -38,7 +38,7 @@ protected:
 
 public:
     CoreTransformParameters(uint64_t cbitlen);
-    CoreTransformParameters(int primes,int multiplier,int k)
+    CoreTransformParameters(int primes, int multiplier, int k)
         : primes(primes)
         , multiplier(multiplier)
         , k(k)

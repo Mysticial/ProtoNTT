@@ -43,7 +43,7 @@ void sample(){
     TwiddleTable table;
 
     //  Get transform parameters.
-    BasicTransformParameters tp(CL,table);
+    BasicTransformParameters tp(CL, table);
 
     //  (Optional) Populate the table. The size is up to preference.
     //  A larger table will be able to run larger multiplications at full
@@ -51,10 +51,10 @@ void sample(){
     tp.ensure_tables(CL);
 
     //  Perform multiply.
-    tp.mul(C,A,AL,B,BL);
+    tp.mul(C, A, AL, B, BL);
 
     //  Print the result.
-    print(C,CL);
+    print(C, CL);
 
 
     //  Notes:
@@ -89,7 +89,7 @@ int main(){
             std::cout << "choice = ";
             int choice;
             std::cin >> choice;
-            std::cin.ignore(INT_MAX,'\n');
+            std::cin.ignore(INT_MAX, '\n');
             std::cout << std::endl;
             switch (choice){
                 case 0:

@@ -25,6 +25,7 @@
 #include <Windows.h>
 #include <intrin.h>
 #pragma warning(disable:4127)   //  Constant Expression
+#pragma warning(disable:4458)   //  Member Hiding
 #else
 //  Linux/GCC Includes
 #endif
@@ -41,31 +42,31 @@ namespace ProtoNTT{
 //  Visual Studio
 #ifdef _MSC_VER
 #define FORCE_INLINE inline __forceinline
-FORCE_INLINE uint64_t mulH(uint64_t a,uint64_t b){
+FORCE_INLINE uint64_t mulH(uint64_t a, uint64_t b){
     uint64_t H;
-    _umul128(a,b,&H);
+    _umul128(a, b, &H);
     return H;
 }
-FORCE_INLINE void mulF(uint64_t& L,uint64_t& H,uint64_t a,uint64_t b){
-    L = _umul128(a,b,&H);
+FORCE_INLINE void mulF(uint64_t& L, uint64_t& H, uint64_t a, uint64_t b){
+    L = _umul128(a, b, &H);
 }
-FORCE_INLINE uint64_t mulH2x1(uint64_t aL,uint64_t aH,uint64_t b){
-    //  (aL,aH) * b
+FORCE_INLINE uint64_t mulH2x1(uint64_t aL, uint64_t aH, uint64_t b){
+    //  (aL, aH) * b
     uint64_t H;
-    _umul128(aL,b,&H);
+    _umul128(aL, b, &H);
     H += aH * b;
     return H;
 }
-inline void invert64(uint64_t& L,uint64_t& H,uint64_t p){
-    //  (L,H) = 2^128 / p
+inline void invert64(uint64_t& L, uint64_t& H, uint64_t p){
+    //  (L, H) = 2^128 / p
     //  This function is not performance critical.
     double inv = 1. / p;
     double r = 79228162514264337593543950336. * inv;
     r *= 0.9999999999999964472863211994990706443786621093750;   //  1 - 1/2^48
     uint64_t qH = (uint64_t)r;
 
-    uint64_t rL,rH;
-    mulF(rL,rH,qH,p);
+    uint64_t rL, rH;
+    mulF(rL, rH, qH, p);
 
     L = 0 - (rL << 32);
     H = 0 - ((rL >> 32) | (rH << 32)) - 1;
@@ -76,10 +77,10 @@ inline void invert64(uint64_t& L,uint64_t& H,uint64_t p){
     //  This round-to-nearest will guarantee that we never under-estimate the
     //  quotient. But it may cause us to over-shoot the quotient by at most 1.
     uint64_t qL = (uint64_t)(r + 0.5);
-    mulF(rL,rH,qL,p);
+    mulF(rL, rH, qL, p);
 
-    char carry = _subborrow_u64(0,L,rL,&L);
-    carry = _subborrow_u64(carry,H,rH,&H);
+    char carry = _subborrow_u64(0, L, rL, &L);
+    carry = _subborrow_u64(carry, H, rH, &H);
 
     //  Make correction
     if (carry)
@@ -93,30 +94,30 @@ inline void invert64(uint64_t& L,uint64_t& H,uint64_t p){
     H = qH;
 }
 ////////////////////////////////////////////////////////////////////////////////
-FORCE_INLINE void add128(uint64_t& L,uint64_t& H,uint64_t x){
-    char carry = _addcarry_u64(0,L,x,&L);
-    _addcarry_u64(carry,H,0,&H);
+FORCE_INLINE void add128(uint64_t& L, uint64_t& H, uint64_t x){
+    char carry = _addcarry_u64(0, L, x, &L);
+    _addcarry_u64(carry, H, 0, &H);
 }
-FORCE_INLINE void muladd(uint64_t& L,uint64_t& H,uint64_t A,uint64_t B,uint64_t C){
-    L = _umul128(A,B,&H);
-    char carry = _addcarry_u64(0,L,C,&L);
-    _addcarry_u64(carry,H,0,&H);
+FORCE_INLINE void muladd(uint64_t& L, uint64_t& H, uint64_t A, uint64_t B, uint64_t C){
+    L = _umul128(A, B, &H);
+    char carry = _addcarry_u64(0, L, C, &L);
+    _addcarry_u64(carry, H, 0, &H);
 }
-FORCE_INLINE void muladd2(uint64_t& L,uint64_t& H,uint64_t A,uint64_t B,uint64_t C,uint64_t D){
-    L = _umul128(A,B,&H);
-    char carry = _addcarry_u64(0,L,C,&L);
-    _addcarry_u64(carry,H,0,&H);
-    carry = _addcarry_u64(0,L,D,&L);
-    _addcarry_u64(carry,H,0,&H);
+FORCE_INLINE void muladd2(uint64_t& L, uint64_t& H, uint64_t A, uint64_t B, uint64_t C, uint64_t D){
+    L = _umul128(A, B, &H);
+    char carry = _addcarry_u64(0, L, C, &L);
+    _addcarry_u64(carry, H, 0, &H);
+    carry = _addcarry_u64(0, L, D, &L);
+    _addcarry_u64(carry, H, 0, &H);
 }
-FORCE_INLINE void add_and_carry(uint64_t* T,const uint64_t* A,size_t L){
+FORCE_INLINE void add_and_carry(uint64_t* T, const uint64_t* A, size_t L){
     //Conditions:
     //  -   2 <= L
 
-    char carry = _addcarry_u64(0,T[0],A[0],&T[0]);
+    char carry = _addcarry_u64(0, T[0], A[0], &T[0]);
     size_t c = 1;
     do{
-        carry = _addcarry_u64(carry,T[c],A[c],&T[c]);
+        carry = _addcarry_u64(carry, T[c], A[c], &T[c]);
         c++;
     }while (c < L);
 
@@ -125,14 +126,14 @@ FORCE_INLINE void add_and_carry(uint64_t* T,const uint64_t* A,size_t L){
 
     while (++T[c++] == 0);
 }
-FORCE_INLINE void sub(uint64_t* T,const uint64_t* A,size_t L){
+FORCE_INLINE void sub(uint64_t* T, const uint64_t* A, size_t L){
     //Conditions:
     //  -   2 <= L
 
-    char carry = _subborrow_u64(0,T[0],A[0],&T[0]);
+    char carry = _subborrow_u64(0, T[0], A[0], &T[0]);
     size_t c = 1;
     do{
-        carry = _subborrow_u64(carry,T[c],A[c],&T[c]);
+        carry = _subborrow_u64(carry, T[c], A[c], &T[c]);
         c++;
     }while (c < L);
 }
@@ -143,22 +144,22 @@ FORCE_INLINE void sub(uint64_t* T,const uint64_t* A,size_t L){
 //  GCC
 #else
 #define FORCE_INLINE inline __attribute__ ((always_inline))
-FORCE_INLINE uint64_t mulH(uint64_t a,uint64_t b){
+FORCE_INLINE uint64_t mulH(uint64_t a, uint64_t b){
     return (uint64_t)((unsigned __int128)a * b >> 64);
 }
-FORCE_INLINE void mulF(uint64_t& L,uint64_t& H,uint64_t a,uint64_t b){
+FORCE_INLINE void mulF(uint64_t& L, uint64_t& H, uint64_t a, uint64_t b){
     unsigned __int128 x = (unsigned __int128)a * b;
     L = (uint64_t)x;
     H = (uint64_t)(x >> 64);
 }
-FORCE_INLINE uint64_t mulH2x1(uint64_t aL,uint64_t aH,uint64_t b){
-    //  (aL,aH) * b
+FORCE_INLINE uint64_t mulH2x1(uint64_t aL, uint64_t aH, uint64_t b){
+    //  (aL, aH) * b
     unsigned __int128 temp = ((unsigned __int128)aH << 64) | aL;
     temp *= b;
     return (uint64_t)(temp >> 64);
 }
-inline void invert64(uint64_t& L,uint64_t& H,uint64_t p){
-    //  (L,H) = 2^128 / p
+inline void invert64(uint64_t& L, uint64_t& H, uint64_t p){
+    //  (L, H) = 2^128 / p
     //  This function is not performance critical.
     unsigned __int128 temp = 0;
     temp -= 1;
@@ -167,23 +168,23 @@ inline void invert64(uint64_t& L,uint64_t& H,uint64_t p){
     H = (uint64_t)(temp >> 64);
 }
 ////////////////////////////////////////////////////////////////////////////////
-FORCE_INLINE void add128(uint64_t& L,uint64_t& H,uint64_t x){
+FORCE_INLINE void add128(uint64_t& L, uint64_t& H, uint64_t x){
     unsigned __int128 temp = ((unsigned __int128)H << 64) | L;
     temp += x;
     L = (uint64_t)temp;
     H = (uint64_t)(temp >> 64);
 }
-FORCE_INLINE void muladd(uint64_t& L,uint64_t& H,uint64_t A,uint64_t B,uint64_t C){
+FORCE_INLINE void muladd(uint64_t& L, uint64_t& H, uint64_t A, uint64_t B, uint64_t C){
     unsigned __int128 temp = (unsigned __int128)A * B + C;
     L = (uint64_t)temp;
     H = (uint64_t)(temp >> 64);
 }
-FORCE_INLINE void muladd2(uint64_t& L,uint64_t& H,uint64_t A,uint64_t B,uint64_t C,uint64_t D){
+FORCE_INLINE void muladd2(uint64_t& L, uint64_t& H, uint64_t A, uint64_t B, uint64_t C, uint64_t D){
     unsigned __int128 temp = (unsigned __int128)A * B + C + D;
     L = (uint64_t)temp;
     H = (uint64_t)(temp >> 64);
 }
-FORCE_INLINE void add_and_carry(uint64_t* T,const uint64_t* A,size_t L){
+FORCE_INLINE void add_and_carry(uint64_t* T, const uint64_t* A, size_t L){
     //Conditions:
     //  -   2 <= L
 
@@ -204,7 +205,7 @@ FORCE_INLINE void add_and_carry(uint64_t* T,const uint64_t* A,size_t L){
 
     while (++T[c++] == 0);
 }
-FORCE_INLINE void sub(uint64_t* T,const uint64_t* A,size_t L){
+FORCE_INLINE void sub(uint64_t* T, const uint64_t* A, size_t L){
     //Conditions:
     //  -   2 <= L
 
@@ -225,32 +226,32 @@ FORCE_INLINE void sub(uint64_t* T,const uint64_t* A,size_t L){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Shared
-FORCE_INLINE uint64_t mul(uint64_t* T,const uint64_t* A,size_t L,uint64_t x){
+FORCE_INLINE uint64_t mul(uint64_t* T, const uint64_t* A, size_t L, uint64_t x){
     //  T = A * x
 
     //Conditions:
     //  -   2 <= L
 
     uint64_t carry;
-    mulF(T[0],carry,A[0],x);
+    mulF(T[0], carry, A[0], x);
     size_t c = 1;
     do{
-        muladd(T[c],carry,A[c],x,carry);
+        muladd(T[c], carry, A[c], x, carry);
         c++;
     }while (c < L);
     return carry;
 }
-FORCE_INLINE uint64_t muladd(uint64_t* T,const uint64_t* A,size_t L,uint64_t x){
+FORCE_INLINE uint64_t muladd(uint64_t* T, const uint64_t* A, size_t L, uint64_t x){
     //  T += A * x
 
     //Conditions:
     //  -   2 <= L
 
     uint64_t carry;
-    muladd(T[0],carry,A[0],x,T[0]);
+    muladd(T[0], carry, A[0], x, T[0]);
     size_t c = 1;
     do{
-        muladd2(T[c],carry,A[c],x,carry,T[c]);
+        muladd2(T[c], carry, A[c], x, carry, T[c]);
         c++;
     }while (c < L);
     return carry;

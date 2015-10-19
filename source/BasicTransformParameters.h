@@ -36,25 +36,25 @@ private:
     ModulusSet* set;
 
 public:
-    BasicTransformParameters(uint64_t cwordlen,TwiddleTable& tables)
+    BasicTransformParameters(uint64_t cwordlen, TwiddleTable& tables)
         : CoreTransformParameters(cwordlen * 64)
     {
         set_modset(tables);
         check_k();
         update_sizes();
     }
-    BasicTransformParameters(int primes,int multiplier,int k,TwiddleTable& tables)
-        : CoreTransformParameters(primes,multiplier,k)
+    BasicTransformParameters(int primes, int multiplier, int k, TwiddleTable& tables)
+        : CoreTransformParameters(primes, multiplier, k)
     {
         set_modset(tables);
         check_k();
         update_sizes();
     }
 
-    static void time_benchmark(int primes,int multiplier,int k,double seconds = 4.0,int table_reduction = 0);
+    static void time_benchmark(int primes, int multiplier, int k, double seconds = 4.0, int table_reduction = 0);
 
     void bench_multiply(int table_reduction = 0);
-    void bench_multiply(size_t AL,size_t BL,int table_reduction = 0);
+    void bench_multiply(size_t AL, size_t BL, int table_reduction = 0);
     void test() const;
 
     void print() const;
@@ -66,7 +66,7 @@ public:
         if (cbitlen == 0)
             cbitlen = CoreTransformParameters::cbitlen;
 
-        int k = TwiddleTable::get_table_k(cbitlen,*set);
+        int k = TwiddleTable::get_table_k(cbitlen, *set);
         set->ensure_tables(k);
     }
     uint64_t table_bytes(uint64_t cwordlen = 0) const{
@@ -76,12 +76,12 @@ public:
         if (cbitlen == 0)
             cbitlen = CoreTransformParameters::cbitlen;
 
-        int k = TwiddleTable::get_table_k(cbitlen,*set);
+        int k = TwiddleTable::get_table_k(cbitlen, *set);
         return set->table_bytes(k);
     }
 
-    void sqr(uint64_t* C,const uint64_t* A,size_t AL) const;
-    void mul(uint64_t* C,const uint64_t* A,size_t AL,const uint64_t* B,size_t BL) const;
+    void sqr(uint64_t* C, const uint64_t* A, size_t AL) const;
+    void mul(uint64_t* C, const uint64_t* A, size_t AL, const uint64_t* B, size_t BL) const;
 
 private:
     void set_modset(TwiddleTable& tables);
@@ -96,8 +96,8 @@ private:
             throw "Maximum transform length exceeded for this prime/multiplier combination.";
     }
 
-    void raw_to_NTT(uint64_t* T,const uint64_t* R,size_t RL) const;
-    void NTT_to_raw(const uint64_t* T,uint64_t* R,size_t RL) const;
+    void raw_to_NTT(uint64_t* T, const uint64_t* R, size_t RL) const;
+    void NTT_to_raw(const uint64_t* T, uint64_t* R, size_t RL) const;
 };
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

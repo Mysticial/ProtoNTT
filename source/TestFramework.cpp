@@ -160,7 +160,7 @@ std::string tostr_u_bytes(uint64_t bytes){
 void pause(){
     std::cout << "Press ENTER to continue . . .";
     std::string out;
-    std::getline(std::cin,out);
+    std::getline(std::cin, out);
 }
 void print_commas(uint64_t x){
     std::cout << tostr_u_commas(x);
@@ -186,7 +186,7 @@ double wall_clock(){
     double ratio = (double)ratio_object.num / ratio_object.den;
     return std::chrono::high_resolution_clock::now().time_since_epoch().count() * ratio;
 }
-void print(const uint64_t* A,size_t L){
+void print(const uint64_t* A, size_t L){
     if (L == 0){
         std::cout << "{}" << std::endl;
         return;
@@ -196,7 +196,7 @@ void print(const uint64_t* A,size_t L){
 
     L--;
     for (size_t c = 0; c < L; c++){
-        std::cout << (A[c]) << ",";
+        std::cout << (A[c]) << ", ";
     }
     std::cout << A[L] << "}" << std::endl;
 }

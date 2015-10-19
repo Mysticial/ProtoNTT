@@ -30,10 +30,10 @@ namespace ProtoNTT{
 class TwiddleTable{
 public:
     //  I should probably refactor this into a 2D array.
-    ModulusSet p3m1,p3m3,p3m5,p3m7;
-    ModulusSet p5m1,p5m3,p5m5,p5m7;
-    ModulusSet p7m1,p7m3,p7m5,p7m7;
-    ModulusSet p9m1,p9m3,p9m5,p9m7;
+    ModulusSet p3m1, p3m3, p3m5, p3m7;
+    ModulusSet p5m1, p5m3, p5m5, p5m7;
+    ModulusSet p7m1, p7m3, p7m5, p7m7;
+    ModulusSet p9m1, p9m3, p9m5, p9m7;
 
 public:
     TwiddleTable()
@@ -50,33 +50,33 @@ public:
 
         //  Warning: This may use a LOT of memory.
 
-        p3m1.ensure_tables(get_table_k(cbitlen,p3m1));
-        p3m3.ensure_tables(get_table_k(cbitlen,p3m3));
-        p3m5.ensure_tables(get_table_k(cbitlen,p3m5));
-        p3m7.ensure_tables(get_table_k(cbitlen,p3m7));
+        p3m1.ensure_tables(get_table_k(cbitlen, p3m1));
+        p3m3.ensure_tables(get_table_k(cbitlen, p3m3));
+        p3m5.ensure_tables(get_table_k(cbitlen, p3m5));
+        p3m7.ensure_tables(get_table_k(cbitlen, p3m7));
 
-        p5m1.ensure_tables(get_table_k(cbitlen,p5m1));
-        p5m3.ensure_tables(get_table_k(cbitlen,p5m3));
-        p5m5.ensure_tables(get_table_k(cbitlen,p5m5));
-        p5m7.ensure_tables(get_table_k(cbitlen,p5m7));
+        p5m1.ensure_tables(get_table_k(cbitlen, p5m1));
+        p5m3.ensure_tables(get_table_k(cbitlen, p5m3));
+        p5m5.ensure_tables(get_table_k(cbitlen, p5m5));
+        p5m7.ensure_tables(get_table_k(cbitlen, p5m7));
 
-        p7m1.ensure_tables(get_table_k(cbitlen,p7m1));
-        p7m3.ensure_tables(get_table_k(cbitlen,p7m3));
-        p7m5.ensure_tables(get_table_k(cbitlen,p7m5));
-        p7m7.ensure_tables(get_table_k(cbitlen,p7m7));
+        p7m1.ensure_tables(get_table_k(cbitlen, p7m1));
+        p7m3.ensure_tables(get_table_k(cbitlen, p7m3));
+        p7m5.ensure_tables(get_table_k(cbitlen, p7m5));
+        p7m7.ensure_tables(get_table_k(cbitlen, p7m7));
 
-        p9m1.ensure_tables(get_table_k(cbitlen,p9m1));
-        p9m3.ensure_tables(get_table_k(cbitlen,p9m3));
-        p9m5.ensure_tables(get_table_k(cbitlen,p9m5));
-        p9m7.ensure_tables(get_table_k(cbitlen,p9m7));
+        p9m1.ensure_tables(get_table_k(cbitlen, p9m1));
+        p9m3.ensure_tables(get_table_k(cbitlen, p9m3));
+        p9m5.ensure_tables(get_table_k(cbitlen, p9m5));
+        p9m7.ensure_tables(get_table_k(cbitlen, p9m7));
     }
 
-    static int get_table_k(uint64_t cbitlen,const ModulusSet& set){
+    static int get_table_k(uint64_t cbitlen, const ModulusSet& set){
         //  Returns the table size k such that the table will be large enough to
         //  handle a convolution of cbitlen without resorting to expensive
         //  on-the-fly twiddle factor generation.
         int k = Modulus::BASE_K;
-        while (CoreTransformParameters(set.factors,set.multiplier,k).get_cbitlen() < cbitlen){
+        while (CoreTransformParameters(set.factors, set.multiplier, k).get_cbitlen() < cbitlen){
             k++;
         }
         return k;

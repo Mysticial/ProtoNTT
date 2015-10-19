@@ -33,13 +33,13 @@ void print_bits(uint64_t bits);
 void print_words(uint64_t words);
 void print_bytes(uint64_t bytes);
 double wall_clock();
-void print(const uint64_t* A,size_t L);
+void print(const uint64_t* A, size_t L);
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Checksum Hashing using mod 2^61 - 1. (Mersenne Prime)
-FORCE_INLINE uint64_t hash_reduce(uint64_t L,uint64_t H){
+FORCE_INLINE uint64_t hash_reduce(uint64_t L, uint64_t H){
     //  Computes: (L + H * 2^64) mod (2^61 - 1)
 
     //Conditions:
@@ -52,7 +52,7 @@ FORCE_INLINE uint64_t hash_reduce(uint64_t L,uint64_t H){
     H = L - 0x1fffffffffffffffull;
     return L >= 0x1fffffffffffffffull ? H : L;
 }
-inline uint64_t hash_compute(const uint64_t* T,size_t L){
+inline uint64_t hash_compute(const uint64_t* T, size_t L){
     //  Computes: T % (2^61 - 1)
 
     uint64_t x = 0;
@@ -65,26 +65,26 @@ inline uint64_t hash_compute(const uint64_t* T,size_t L){
         x <<= 32;
         x |= (uint32_t)(a >> 32);
 
-        x = hash_reduce(x,t);
+        x = hash_reduce(x, t);
 
         t = x >> 32;
         x <<= 32;
         x |= (uint32_t)a;
 
-        x = hash_reduce(x,t);
+        x = hash_reduce(x, t);
     }
 
     return x;
 }
-inline uint64_t hash_mul(uint64_t a,uint64_t b){
+inline uint64_t hash_mul(uint64_t a, uint64_t b){
     //  Computes: a * b mod (2^61 - 1)
 
     //Conditions:
     //  -   A < 2^61 - 1
     //  -   B < 2^61 - 1
 
-    mulF(a,b,a,b);
-    return hash_reduce(a,b);
+    mulF(a, b, a, b);
+    return hash_reduce(a, b);
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ FORCE_INLINE uint64_t random(uint64_t index){
     index += 2760733047673ull;
     return (uint64_t)2760727302517*index*index*index + 2760730175003ull;
 }
-inline void random(uint64_t* T,size_t L,uint64_t index = 0){
+inline void random(uint64_t* T, size_t L, uint64_t index = 0){
     for (size_t c = 0; c < L; c++){
         *T++ = random(index + c);
     }

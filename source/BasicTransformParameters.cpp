@@ -67,7 +67,7 @@ void BasicTransformParameters::set_modset(TwiddleTable& tables){
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Raw Conversion
-void BasicTransformParameters::raw_to_NTT(uint64_t* T,const uint64_t* R,size_t RL) const{
+void BasicTransformParameters::raw_to_NTT(uint64_t* T, const uint64_t* R, size_t RL) const{
     //  Convert from raw operand into NTT array.
 
     size_t operand_words = set->operand_words;
@@ -82,7 +82,7 @@ void BasicTransformParameters::raw_to_NTT(uint64_t* T,const uint64_t* R,size_t R
     if (RL >= operand_words){
         size_t stop = RL - operand_words + 1;
         while (index_R < stop){
-            set->start_block(R + index_R,T + index_T,stride);
+            set->start_block(R + index_R, T + index_T, stride);
             index_R += operand_words;
             index_T++;
         }
@@ -92,18 +92,18 @@ void BasicTransformParameters::raw_to_NTT(uint64_t* T,const uint64_t* R,size_t R
     if (index_R < RL){
         uint64_t P[ModulusSet::MAX_PRIMES];
         size_t left = RL - index_R;
-        memcpy(P,R + index_R,left * sizeof(uint64_t));
-        memset(P + left,0,(operand_words - left) * sizeof(uint64_t));
-        set->start_block(P,T + index_T,stride);
+        memcpy(P, R + index_R, left * sizeof(uint64_t));
+        memset(P + left, 0, (operand_words - left) * sizeof(uint64_t));
+        set->start_block(P, T + index_T, stride);
         index_T++;
     }
 
     //  Zero-pad the rest of the transform.
     for (int f = 0; f < primes; f++){
-        memset(T + index_T + f*stride,0,(stride - index_T) * sizeof(uint64_t));
+        memset(T + index_T + f*stride, 0, (stride - index_T) * sizeof(uint64_t));
     }
 }
-void BasicTransformParameters::NTT_to_raw(const uint64_t* T,uint64_t* R,size_t RL) const{
+void BasicTransformParameters::NTT_to_raw(const uint64_t* T, uint64_t* R, size_t RL) const{
     //  Convert from NTT array to raw operand applying carryout.
 
     size_t operand_words = set->operand_words;
@@ -116,12 +116,12 @@ void BasicTransformParameters::NTT_to_raw(const uint64_t* T,uint64_t* R,size_t R
     size_t index_T = 0;
 
     uint64_t carry[ModulusSet::MAX_PRIMES];
-    memset(carry,0,sizeof(carry));
+    memset(carry, 0, sizeof(carry));
 
     if (RL >= operand_words){
         size_t stop = RL - operand_words + 1;
         while (index_R < stop){
-            set->finish_block(k,carry,R + index_R,T + index_T,stride);
+            set->finish_block(k, carry, R + index_R, T + index_T, stride);
             index_R += operand_words;
             index_T++;
         }
@@ -130,25 +130,25 @@ void BasicTransformParameters::NTT_to_raw(const uint64_t* T,uint64_t* R,size_t R
     //  Take care of partial top word.
     if (index_R < RL){
         uint64_t P[ModulusSet::MAX_PRIMES];
-        set->finish_block(k,carry,P,T + index_T,stride);
-        memcpy(R + index_R,P,(RL - index_R) * sizeof(uint64_t));
+        set->finish_block(k, carry, P, T + index_T, stride);
+        memcpy(R + index_R, P, (RL - index_R) * sizeof(uint64_t));
     }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Ready-to-go Multiplication
-void BasicTransformParameters::sqr(uint64_t* C,const uint64_t* A,size_t AL) const{
+void BasicTransformParameters::sqr(uint64_t* C, const uint64_t* A, size_t AL) const{
     size_t TL = (size_t)multiplier << k;
 
     std::unique_ptr<uint64_t> T_uptr(new uint64_t[TL * primes]);
     uint64_t* T = T_uptr.get();
 
-    raw_to_NTT(T,A,AL);         //  Convert 1st operand.
-    set->forward(k,T);          //  Forward transform 1st operand.
-    set->inverse_fmul(k,T,T);   //  Pointwise multiply and inverse transform.
-    NTT_to_raw(T,C,2*AL);       //  Convert back and carryout.
+    raw_to_NTT(T, A, AL);         //  Convert 1st operand.
+    set->forward(k, T);          //  Forward transform 1st operand.
+    set->inverse_fmul(k, T, T);   //  Pointwise multiply and inverse transform.
+    NTT_to_raw(T, C, 2*AL);       //  Convert back and carryout.
 }
-void BasicTransformParameters::mul(uint64_t* C,const uint64_t* A,size_t AL,const uint64_t* B,size_t BL) const{
+void BasicTransformParameters::mul(uint64_t* C, const uint64_t* A, size_t AL, const uint64_t* B, size_t BL) const{
     size_t TL = (size_t)multiplier << k;
 
     std::unique_ptr<uint64_t> T_uptr(new uint64_t[TL * primes]);
@@ -156,19 +156,19 @@ void BasicTransformParameters::mul(uint64_t* C,const uint64_t* A,size_t AL,const
     uint64_t* T = T_uptr.get();
     uint64_t* U = U_uptr.get();
 
-    raw_to_NTT(T,A,AL);         //  Convert 1st operand.
-    set->forward(k,T);          //  Forward transform 1st operand.
-    raw_to_NTT(U,B,BL);         //  Convert 1st operand.
-    set->forward(k,U);          //  Forward transform 1st operand.
-    set->inverse_fmul(k,T,U);   //  Pointwise multiply and inverse transform.
-    NTT_to_raw(T,C,AL + BL);    //  Convert back and carryout.
+    raw_to_NTT(T, A, AL);         //  Convert 1st operand.
+    set->forward(k, T);          //  Forward transform 1st operand.
+    raw_to_NTT(U, B, BL);         //  Convert 1st operand.
+    set->forward(k, U);          //  Forward transform 1st operand.
+    set->inverse_fmul(k, T, U);   //  Pointwise multiply and inverse transform.
+    NTT_to_raw(T, C, AL + BL);    //  Convert back and carryout.
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 //  Benchmark
-void BasicTransformParameters::time_benchmark(int primes,int multiplier,int k,double seconds,int table_reduction){
+void BasicTransformParameters::time_benchmark(int primes, int multiplier, int k, double seconds, int table_reduction){
     TwiddleTable table;
-    BasicTransformParameters tp(primes,multiplier,k,table);
+    BasicTransformParameters tp(primes, multiplier, k, table);
 
     size_t L = tp.cbitlen / 128;
     size_t CL = 2*L;
@@ -184,28 +184,28 @@ void BasicTransformParameters::time_benchmark(int primes,int multiplier,int k,do
     std::unique_ptr<uint64_t> O_uptr(new uint64_t[CL]);
     uint64_t* A = O_uptr.get();
     uint64_t* B = A + L;
-    random(A,L);
-    random(B,L,L);
+    random(A, L);
+    random(B, L, L);
 
     //  Allocate Transforms
     std::unique_ptr<uint64_t> T_uptr(new uint64_t[tp.Tsize / sizeof(uint64_t)]);
     std::unique_ptr<uint64_t> U_uptr(new uint64_t[tp.Tsize / sizeof(uint64_t)]);
     uint64_t* T = T_uptr.get();
     uint64_t* U = U_uptr.get();
-    memset(T,0,tp.Tsize);
-    memset(U,0,tp.Tsize);
+    memset(T, 0, tp.Tsize);
+    memset(U, 0, tp.Tsize);
 
     //  Benchmark
     uint64_t iterations = 0;
     double start = wall_clock();
     double total_time;
     do{
-        tp.raw_to_NTT(T,A,L);           //  Convert 1st operand.
-        tp.set->forward(k,T);           //  Forward transform 1st operand.
-        tp.raw_to_NTT(U,B,L);           //  Convert 1st operand.
-        tp.set->forward(k,U);           //  Forward transform 1st operand.
-        tp.set->inverse_fmul(k,T,U);    //  Pointwise multiply and inverse transform.
-        tp.NTT_to_raw(T,A,CL);          //  Convert back and carryout.
+        tp.raw_to_NTT(T, A, L);           //  Convert 1st operand.
+        tp.set->forward(k, T);           //  Forward transform 1st operand.
+        tp.raw_to_NTT(U, B, L);           //  Convert 1st operand.
+        tp.set->forward(k, U);           //  Forward transform 1st operand.
+        tp.set->inverse_fmul(k, T, U);    //  Pointwise multiply and inverse transform.
+        tp.NTT_to_raw(T, A, CL);          //  Convert back and carryout.
         iterations++;
     }while ((total_time = wall_clock() - start) < seconds);
 
@@ -214,9 +214,9 @@ void BasicTransformParameters::time_benchmark(int primes,int multiplier,int k,do
 }
 void BasicTransformParameters::bench_multiply(int table_reduction){
     size_t L = cbitlen / 128;
-    bench_multiply(L,L,table_reduction);
+    bench_multiply(L, L, table_reduction);
 }
-void BasicTransformParameters::bench_multiply(size_t AL,size_t BL,int table_reduction){
+void BasicTransformParameters::bench_multiply(size_t AL, size_t BL, int table_reduction){
     std::cout << "Benchmark Multiplication" << std::endl;
     std::cout << std::endl;
 
@@ -254,8 +254,8 @@ void BasicTransformParameters::bench_multiply(size_t AL,size_t BL,int table_redu
     std::unique_ptr<uint64_t> O_uptr(new uint64_t[CL]);
     uint64_t* A = O_uptr.get();
     uint64_t* B = A + AL;
-    random(A,AL);
-    random(B,BL,AL);
+    random(A, AL);
+    random(B, BL, AL);
     std::cout << wall_clock() - time1 << std::endl;
 
     std::cout << "Allocating Transforms...          ";
@@ -264,46 +264,46 @@ void BasicTransformParameters::bench_multiply(size_t AL,size_t BL,int table_redu
     std::unique_ptr<uint64_t> U_uptr(new uint64_t[Tsize / sizeof(uint64_t)]);
     uint64_t* T = T_uptr.get();
     uint64_t* U = U_uptr.get();
-    memset(T,0,Tsize);
-    memset(U,0,Tsize);
+    memset(T, 0, Tsize);
+    memset(U, 0, Tsize);
     std::cout << wall_clock() - time2 << std::endl;
 
     std::cout << "Hashing Operands...               ";
     double time3 = wall_clock();
-    uint64_t hashA = hash_compute(A,AL);
-    uint64_t hashB = hash_compute(B,BL);
+    uint64_t hashA = hash_compute(A, AL);
+    uint64_t hashB = hash_compute(B, BL);
     std::cout << wall_clock() - time3 << std::endl;
 
     std::cout << std::endl;
 
     std::cout << "Generating Residuals A...         ";
     double time4 = wall_clock();
-    raw_to_NTT(T,A,AL);
+    raw_to_NTT(T, A, AL);
     std::cout << wall_clock() - time4 << std::endl;
 
     std::cout << "Forward Transform A...            ";
     double time5 = wall_clock();
-    set->forward(k,T);
+    set->forward(k, T);
     std::cout << wall_clock() - time5 << std::endl;
 
     std::cout << "Generating Residuals B...         ";
     double time6 = wall_clock();
-    raw_to_NTT(U,B,BL);
+    raw_to_NTT(U, B, BL);
     std::cout << wall_clock() - time6 << std::endl;
 
     std::cout << "Forward Transform B...            ";
     double time7 = wall_clock();
-    set->forward(k,U);
+    set->forward(k, U);
     std::cout << wall_clock() - time7 << std::endl;
 
     std::cout << "Inverse Transform...              ";
     double time8 = wall_clock();
-    set->inverse_fmul(k,T,U);
+    set->inverse_fmul(k, T, U);
     std::cout << wall_clock() - time8 << std::endl;
 
     std::cout << "Constructing CRT...               ";
     double time9 = wall_clock();
-    NTT_to_raw(T,A,CL);
+    NTT_to_raw(T, A, CL);
     double time10 = wall_clock();
     std::cout << time10 - time9 << std::endl;
 
@@ -314,8 +314,8 @@ void BasicTransformParameters::bench_multiply(size_t AL,size_t BL,int table_redu
 
     std::cout << "Hashing Result...                 ";
     double time11 = wall_clock();
-    uint64_t hashC = hash_compute(A,CL);
-    uint64_t hashD = hash_mul(hashA,hashB);
+    uint64_t hashC = hash_compute(A, CL);
+    uint64_t hashD = hash_mul(hashA, hashB);
     std::cout << wall_clock() - time11 << std::endl;
     std::cout << std::endl;
 
@@ -333,19 +333,19 @@ void BasicTransformParameters::test() const{
     std::unique_ptr<uint64_t> O_uptr(new uint64_t[2*L]);
     uint64_t* A = O_uptr.get();
     uint64_t* B = A + L;
-    random(A,L);
-    random(B,L,L);
+    random(A, L);
+    random(B, L, L);
 
     //  Hash Operands
-    uint64_t hashA = hash_compute(A,L);
-    uint64_t hashB = hash_compute(B,L);
+    uint64_t hashA = hash_compute(A, L);
+    uint64_t hashB = hash_compute(B, L);
 
     //  Multiply
-    mul(A,A,L,B,L);
+    mul(A, A, L, B, L);
 
     //  Hash Result
-    uint64_t hashC = hash_compute(A,2*L);
-    uint64_t hashD = hash_mul(hashA,hashB);
+    uint64_t hashC = hash_compute(A, 2*L);
+    uint64_t hashD = hash_mul(hashA, hashB);
 
     if (hashC == hashD){
         std::cout << "Pass" << std::endl;

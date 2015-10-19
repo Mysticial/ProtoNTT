@@ -38,7 +38,7 @@ public:
     ModularRing(uint64_t prime)
         : prime(prime)
     {
-        invert64(iL,iH,prime);
+        invert64(iL, iH, prime);
     }
 
 public:
@@ -54,7 +54,7 @@ public:
     }
 
 public:
-    FORCE_INLINE uint64_t mulmod(uint64_t x,const TwiddleFactor& W) const{
+    FORCE_INLINE uint64_t mulmod(uint64_t x, const TwiddleFactor& W) const{
         //  Victor Shoup's multiply-modulus.
 
         //Conditions:
@@ -62,33 +62,33 @@ public:
         //  -   W < p
         //  -   Wp = floor(W * 2^64 / p)
 
-        return reduce_p(x * W.W - mulH(x,W.Wp) * prime);
+        return reduce_p(x * W.W - mulH(x, W.Wp) * prime);
     }
-    FORCE_INLINE void butterfly2_forward(uint64_t& A,uint64_t& B) const{
+    FORCE_INLINE void butterfly2_forward(uint64_t& A, uint64_t& B) const{
         //  Non-twiddled butterfly with reductions at the end.
         uint64_t r0 = A + B;
         int64_t r1 = (int64_t)A - (int64_t)B;
         A = reduce_p(r0);
         B = reduce_n(r1);
     }
-    FORCE_INLINE void butterfly2_inverse(uint64_t& A,uint64_t& B) const{
+    FORCE_INLINE void butterfly2_inverse(uint64_t& A, uint64_t& B) const{
         //  Non-twiddled butterfly with reductions at the beginning.
         uint64_t r0 = reduce_p(A);
         uint64_t r1 = reduce_p(B);
         A = r0 + r1;
         B = r0 - r1 + prime;
     }
-    FORCE_INLINE void butterfly2_forward(uint64_t& A,uint64_t& B,const TwiddleFactor& W) const{
+    FORCE_INLINE void butterfly2_forward(uint64_t& A, uint64_t& B, const TwiddleFactor& W) const{
         //  Forward butterfly with 2 reductions.
         uint64_t r0 = A + B;
-        uint64_t r1 = mulmod(A - B + prime,W);
+        uint64_t r1 = mulmod(A - B + prime, W);
         A = reduce_p(r0);
         B = r1;
     }
-    FORCE_INLINE void butterfly2_inverse(uint64_t& A,uint64_t& B,const TwiddleFactor& W) const{
+    FORCE_INLINE void butterfly2_inverse(uint64_t& A, uint64_t& B, const TwiddleFactor& W) const{
         //  Inverse butterfly with 2 reductions.
         uint64_t r0 = reduce_p(A);
-        uint64_t r1 = mulmod(B,W);
+        uint64_t r1 = mulmod(B, W);
         A = r0 + r1;
         B = r0 - r1 + prime;
     }
@@ -102,7 +102,7 @@ public:
 
 private:
     FORCE_INLINE uint64_t get_Wp(uint64_t W) const{
-        register uint64_t q = mulH2x1(iL,iH,W);
+        register uint64_t q = mulH2x1(iL, iH, W);
         register uint64_t m = 0 - q*prime;
         register uint64_t tmp = q + 1;
         return m >= prime ? tmp : q;
