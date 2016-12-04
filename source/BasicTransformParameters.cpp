@@ -143,10 +143,10 @@ void BasicTransformParameters::sqr(uint64_t* C, const uint64_t* A, size_t AL) co
     std::unique_ptr<uint64_t> T_uptr(new uint64_t[TL * primes]);
     uint64_t* T = T_uptr.get();
 
-    raw_to_NTT(T, A, AL);         //  Convert 1st operand.
-    set->forward(k, T);          //  Forward transform 1st operand.
-    set->inverse_fmul(k, T, T);   //  Pointwise multiply and inverse transform.
-    NTT_to_raw(T, C, 2*AL);       //  Convert back and carryout.
+    raw_to_NTT(T, A, AL);           //  Convert 1st operand.
+    set->forward(k, T);             //  Forward transform 1st operand.
+    set->inverse_fmul(k, T, T);     //  Pointwise multiply and inverse transform.
+    NTT_to_raw(T, C, 2*AL);         //  Convert back and carryout.
 }
 void BasicTransformParameters::mul(uint64_t* C, const uint64_t* A, size_t AL, const uint64_t* B, size_t BL) const{
     size_t TL = (size_t)multiplier << k;
@@ -156,12 +156,12 @@ void BasicTransformParameters::mul(uint64_t* C, const uint64_t* A, size_t AL, co
     uint64_t* T = T_uptr.get();
     uint64_t* U = U_uptr.get();
 
-    raw_to_NTT(T, A, AL);         //  Convert 1st operand.
-    set->forward(k, T);          //  Forward transform 1st operand.
-    raw_to_NTT(U, B, BL);         //  Convert 1st operand.
-    set->forward(k, U);          //  Forward transform 1st operand.
-    set->inverse_fmul(k, T, U);   //  Pointwise multiply and inverse transform.
-    NTT_to_raw(T, C, AL + BL);    //  Convert back and carryout.
+    raw_to_NTT(T, A, AL);           //  Convert 1st operand.
+    set->forward(k, T);             //  Forward transform 1st operand.
+    raw_to_NTT(U, B, BL);           //  Convert 1st operand.
+    set->forward(k, U);             //  Forward transform 1st operand.
+    set->inverse_fmul(k, T, U);     //  Pointwise multiply and inverse transform.
+    NTT_to_raw(T, C, AL + BL);      //  Convert back and carryout.
 }
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,12 +200,12 @@ void BasicTransformParameters::time_benchmark(int primes, int multiplier, int k,
     double start = wall_clock();
     double total_time;
     do{
-        tp.raw_to_NTT(T, A, L);           //  Convert 1st operand.
-        tp.set->forward(k, T);           //  Forward transform 1st operand.
-        tp.raw_to_NTT(U, B, L);           //  Convert 1st operand.
-        tp.set->forward(k, U);           //  Forward transform 1st operand.
-        tp.set->inverse_fmul(k, T, U);    //  Pointwise multiply and inverse transform.
-        tp.NTT_to_raw(T, A, CL);          //  Convert back and carryout.
+        tp.raw_to_NTT(T, A, L);             //  Convert 1st operand.
+        tp.set->forward(k, T);              //  Forward transform 1st operand.
+        tp.raw_to_NTT(U, B, L);             //  Convert 1st operand.
+        tp.set->forward(k, U);              //  Forward transform 1st operand.
+        tp.set->inverse_fmul(k, T, U);      //  Pointwise multiply and inverse transform.
+        tp.NTT_to_raw(T, A, CL);            //  Convert back and carryout.
         iterations++;
     }while ((total_time = wall_clock() - start) < seconds);
 
